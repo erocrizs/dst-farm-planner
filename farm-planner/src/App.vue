@@ -7,7 +7,7 @@
       <FieldCanvas/>
     </div>
     <div id="tool-bar-container">
-      <ToolBar/>
+      <ToolBar @selected="setTool"/>
     </div>
     <div id="status-bar-container">
       <StatusBar/>
@@ -28,6 +28,11 @@ export default {
     FieldCanvas,
     StatusBar,
     ToolBar
+  },
+  methods: {
+    setTool (action) {
+      alert('setAction to ' + action);
+    }
   }
 }
 </script>
@@ -56,6 +61,7 @@ export default {
 
   #tool-bar-container {
     height: 50px;
+    background-color: #1b180e;
   }
 
   @media screen and (min-width: 780px) {
@@ -70,6 +76,7 @@ export default {
 
     #field-canvas-container {
       grid-area: 2/1/span 2/span 1;
+      height: inherit;
     }
 
     #status-bar-container {
@@ -78,6 +85,7 @@ export default {
 
     #tool-bar-container {
       grid-area: 3/1/span 1/span 1;
+      background-color: transparent;
     }
   }
 </style>
