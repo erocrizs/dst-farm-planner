@@ -98,8 +98,6 @@ export default {
       height: auto;
       grid-area: 3/1/span 1/span 1;
       background-color: transparent;
-
-      display: block;
     }
   }
 </style>
