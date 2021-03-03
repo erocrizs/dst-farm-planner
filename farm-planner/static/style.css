@@ -1,0 +1,13 @@
+@font-face {
+    font-family: belisa_plumilla;
+    src: url(fonts/belisa_plumilla.ttf);
+}
+
+@font-face {
+    font-family: spirequal;
+    src: url(fonts/spirequal.ttf);
+}
+
+body {
+    font-family: spirequal;
+}
