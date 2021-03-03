@@ -1,15 +1,15 @@
 <template>
-  <img 
+  <img
+    :class="{ selectedTool: this.selected }"
     :src="imgSrc"
-    @click="triggerEvent"
-    />
+    @click="triggerEvent"/>
 </template>
 
 <script>
 
 export default {
   name: 'Tool',
-  props: ['config'],
+  props: ['config', 'selected'],
   data () {
     return {
       imgSrc: './static/' + this.config.image
@@ -17,7 +17,10 @@ export default {
   },
   methods: {
     triggerEvent () {
-      this.$emit('clicked', this.config.action)
+      this.$emit(
+        'clicked',
+        this.selected ? null : this.config.action
+      )
     }
   }
 }
@@ -26,9 +29,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 img {
-  width: 50px;
-  height: 50px;
+  display: block;
   background-size: cover;
   background-image: url("../../assets/toolbar/tool_bg.png");
+
+  width: 50px;
+  height: 50px;
+  transition: width 0.2s, height 0.2s;
+}
+
+.selectedTool {
+  width: 60px;
+  height: 60px;
 }
 </style>

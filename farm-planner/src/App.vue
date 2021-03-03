@@ -7,7 +7,9 @@
       <FieldCanvas/>
     </div>
     <div id="tool-bar-container">
-      <ToolBar @selected="setTool"/>
+      <ToolBar 
+        @selected="setAction"
+        :currentAction="currentAction"/>
     </div>
     <div id="status-bar-container">
       <StatusBar/>
@@ -29,9 +31,14 @@ export default {
     StatusBar,
     ToolBar
   },
+  data () {
+    return {
+      currentAction: null
+    }
+  },
   methods: {
-    setTool (action) {
-      alert('setAction to ' + action);
+    setAction (action) {
+      this.currentAction = action
     }
   }
 }
@@ -60,14 +67,18 @@ export default {
   }
 
   #tool-bar-container {
-    height: 50px;
+    height: 60px;
     background-color: #1b180e;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @media screen and (min-width: 780px) {
     #app {  
       display: grid;
-      grid-template: 50px 1fr 50px / 1fr 300px;
+      grid-template: 50px 1fr 60px / 1fr 300px;
     }
 
     #navigation-bar-container {
@@ -84,8 +95,11 @@ export default {
     }
 
     #tool-bar-container {
+      height: auto;
       grid-area: 3/1/span 1/span 1;
       background-color: transparent;
+
+      display: block;
     }
   }
 </style>
