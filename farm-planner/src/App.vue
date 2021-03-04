@@ -8,11 +8,13 @@
     </div>
     <div id="tool-bar-container">
       <ToolBar 
-        @selected="setAction"
+        @selectAction="setAction"
         :currentAction="currentAction"/>
     </div>
     <div id="status-bar-container">
-      <StatusBar/>
+      <StatusBar
+        @selectSeason="setSeason"
+        :currentSeason="currentSeason"/>
     </div>
   </div>
 </template>
@@ -33,12 +35,16 @@ export default {
   },
   data () {
     return {
-      currentAction: null
+      currentAction: null,
+      currentSeason: 'autumn'
     }
   },
   methods: {
     setAction (action) {
       this.currentAction = action
+    },
+    setSeason (season) {
+      this.currentSeason = season;
     }
   }
 }
@@ -63,6 +69,13 @@ export default {
   }
 
   #status-bar-container {
+    border: ridge #48321f;
+    border-width: 4px 0px 4px 4px;
+    padding: 10px;
+    background-color: #9b7b5d;
+    color: #342517;
+    font-size: 1em;
+
     min-height: calc(100vh - 100px - 100vw);
   }
 

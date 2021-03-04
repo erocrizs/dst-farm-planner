@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     toolClicked (action) {
-      this.$emit('selected', action)
+      this.$emit('selectAction', action)
     },
     isSelected (toolConfig) {
       return toolConfig.action === this.currentAction
