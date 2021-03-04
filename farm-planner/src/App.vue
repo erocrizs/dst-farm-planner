@@ -74,7 +74,6 @@ export default {
     padding: 10px;
     background-color: #9b7b5d;
     color: #342517;
-    font-size: 1em;
 
     min-height: calc(100vh - 100px - 100vw);
   }

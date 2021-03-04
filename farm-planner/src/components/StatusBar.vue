@@ -55,7 +55,6 @@ export default {
 
 .section-header {
   font-family: belisa_plumilla;
-  font-size: 1.5em;
   text-align: center;
   padding: 15px;
 }

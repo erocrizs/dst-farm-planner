@@ -32,11 +32,13 @@ export default {
 .season-switch {
   display: inline;
 
-  width: 1.5em;
-  height: 1.5em;
+  width: 1em;
+  border: thin solid transparent;
+  margin-left: 10px;
+  padding: 3px;
 }
 
-.selected-season {
-  background-color: white;
+.selected-season { 
+  border-color: white;
 }
 </style>
