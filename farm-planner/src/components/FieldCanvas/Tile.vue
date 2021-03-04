@@ -2,6 +2,7 @@
   <div class="tile" :class="{plotted}">
     <div class="plot-container">
       <div
+        v-if="plotted"
         v-for="(plotData, index) in tileData.plotList"
         :key="index">
         <Plot
