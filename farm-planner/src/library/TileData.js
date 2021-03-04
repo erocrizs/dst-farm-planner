@@ -35,4 +35,8 @@ class TileData {
             }
         }
     }
+
+    get plotList () {
+        return this.plots.reduce((acc, plotRow) => acc.concat(plotRow))
+    }
 }

@@ -1,19 +1,36 @@
 <template>
   <div id="field-canvas"
     :style="turfStyle">
-    Field Canvas
+    <div id="tiles-container"
+      :style="tileGridStyle">
+      <div
+        v-for="(tileData, index) in farmData.tileList"
+        :key="index">
+        <Tile
+          :tileData="tileData"
+          :currentAction="currentAction"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Tile from './FieldCanvas/Tile'
+
 import FarmData from '../library/FarmData'
+import {field} from './FieldCanvas/const'
 import {seasons} from './Seasons/const'
 
-const farmData = new FarmData(3, 3)
+const height = field.tileRows
+const width = field.tileCols
+const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
+const tileWidthPx = field.plotColsPerTile * field.plotSizePx
+const farmData = new FarmData(height, width)
 
 export default {
   name: 'FieldCanvas',
   props: ['currentAction', 'currentSeason'],
+  components: {Tile},
   data () {
     return {farmData}
   },
@@ -22,6 +39,14 @@ export default {
       const {turf} = seasons[this.currentSeason]
       return {
         backgroundImage: `url(../static/${turf})`
+      }
+    },
+    tileGridStyle () {
+      const gridTemplateRows = `${tileHeightPx}px `.repeat(height).trim()
+      const gridTemplateColumns = `${tileWidthPx}px `.repeat(width).trim()
+      return {
+        gridTemplateRows,
+        gridTemplateColumns
       }
     }
   }
@@ -32,12 +57,29 @@ export default {
 <style scoped>
 #field-canvas {
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   background-size: 768px;
   background-repeat: repeat;
   transition: background-image 0.5s ease-in-out;
+
+  overflow: scroll;
 }
+
+#tiles-container {
+  display: grid;
+}
+
+@media screen and (min-width: 780px) {
+    #field-canvas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow: hidden;
+    }
+
+    #tiles-container {
+      margin: 0px;
+    }
+  }
 </style>

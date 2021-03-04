@@ -10,6 +10,12 @@
 
 body {
     font-family: spirequal;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bolder;
 }
+
+@media screen and (min-width: 780px) {
+    body {
+        font-size: 2em;
+    }
+  }
