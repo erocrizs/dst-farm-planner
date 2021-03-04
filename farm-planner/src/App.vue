@@ -56,6 +56,7 @@ export default {
   html, body {
     height: 100%;
     margin: 0;
+    background-color: #222;
   }
 
   #app {
@@ -63,7 +64,7 @@ export default {
   }
 
   #navigation-bar-container {
-    height: 48px;
+    height: 75px;
 
     border-width: 0px; 
     border-bottom-width: 2px;
@@ -98,7 +99,7 @@ export default {
   @media screen and (min-width: 780px) {
     #app {  
       display: grid;
-      grid-template: 50px 1fr 60px / 1fr 300px;
+      grid-template: 75px 1fr 60px / 1fr 300px;
     }
 
     #navigation-bar-container {
