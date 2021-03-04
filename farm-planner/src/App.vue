@@ -25,6 +25,10 @@ import FieldCanvas from './components/FieldCanvas'
 import StatusBar from './components/StatusBar'
 import ToolBar from './components/ToolBar'
 
+import FarmData from './library/FarmData'
+
+const farmData = new FarmData(3, 3)
+
 export default {
   name: 'App',
   components: {
@@ -36,7 +40,8 @@ export default {
   data () {
     return {
       currentAction: null,
-      currentSeason: 'autumn'
+      currentSeason: 'autumn',
+      farmData
     }
   },
   methods: {
