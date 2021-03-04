@@ -13,7 +13,7 @@ export default {
   props: ['config', 'selected'],
   data () {
     return {
-      imgSrc: './static/' + this.config.image
+      imgSrc: './static/' + this.config.symbol
     }
   },
   methods: {

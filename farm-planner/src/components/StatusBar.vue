@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import seasonConst from './Seasons/const'
+import {seasons} from './Seasons/const'
 import SeasonSwitch from './StatusBar/SeasonSwitch'
 
 export default {
@@ -31,7 +31,7 @@ export default {
   props: ['currentSeason'],
   data () {
     return {
-      seasons: seasonConst.seasons
+      seasons
     }
   },
   methods: {

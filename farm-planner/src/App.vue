@@ -4,7 +4,9 @@
       <NavigationBar/>
     </div>
     <div id="field-canvas-container">
-      <FieldCanvas/>
+      <FieldCanvas
+        :currentAction="currentAction"
+        :currentSeason="currentSeason"/>
     </div>
     <div id="tool-bar-container">
       <ToolBar 
@@ -25,10 +27,6 @@ import FieldCanvas from './components/FieldCanvas'
 import StatusBar from './components/StatusBar'
 import ToolBar from './components/ToolBar'
 
-import FarmData from './library/FarmData'
-
-const farmData = new FarmData(3, 3)
-
 export default {
   name: 'App',
   components: {
@@ -40,8 +38,7 @@ export default {
   data () {
     return {
       currentAction: null,
-      currentSeason: 'autumn',
-      farmData
+      currentSeason: 'autumn'
     }
   },
   methods: {
@@ -66,7 +63,13 @@ export default {
   }
 
   #navigation-bar-container {
-    height: 50px;
+    height: 48px;
+
+    border-width: 0px; 
+    border-bottom-width: 2px;
+    border-style: outset;
+    background-color: #333;
+    border-color: #222;
   }
 
   #field-canvas-container {
@@ -75,7 +78,7 @@ export default {
 
   #status-bar-container {
     border: ridge #48321f;
-    border-width: 4px 0px 4px 4px;
+    border-width: 4px;
     padding: 10px;
     background-color: #9b7b5d;
     color: #342517;
