@@ -1,6 +1,6 @@
 <template>
   <img
-    class="season-switch"
+    class="season-switch brown-icon"
     :class="{ 'selected-season': this.selected }"
     :src="imgSrc"
     @click="triggerEvent"/>
