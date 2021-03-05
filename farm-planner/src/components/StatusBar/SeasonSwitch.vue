@@ -33,12 +33,18 @@ export default {
   display: inline;
 
   width: 1em;
-  border: thin solid transparent;
   margin-left: 10px;
   padding: 3px;
 }
+.season-switch:hover {
+  filter: drop-shadow(0px 0px 4px #ccc);
+}
 
 .selected-season { 
-  border-color: white;
+  filter: invert(100%) sepia(3%) saturate(575%) hue-rotate(244deg) brightness(115%) contrast(87%);
+}
+
+.selected-season:hover { 
+  filter: invert(100%) sepia(3%) saturate(575%) hue-rotate(244deg) brightness(115%) contrast(87%) drop-shadow(0px 0px 4px #ccc);;
 }
 </style>

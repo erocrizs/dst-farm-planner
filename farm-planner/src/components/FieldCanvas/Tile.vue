@@ -59,10 +59,9 @@ export default {
 <style scoped>
 .tile {
   height: 100%;
-  border: 2px dashed green;
+  border: 2px dashed #cccccc70;
   box-sizing: border-box;
   background-image: none;
-  transition: background-image 5s ease-in-out;
 }
 
 .tile.plotted {
