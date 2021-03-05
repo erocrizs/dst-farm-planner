@@ -7,7 +7,8 @@ const crops = {
         src: {
             normal: 'crop_normal/carrot.png',
             giant: 'crop_giant/carrot.png',
-            seeds: 'crop_seeds/Oblong_Seeds.png'
+            seeds: 'crop_seeds/Oblong_Seeds.png',
+            plant: 'crop_plant/Carrot_Plant.png'
         },
         nutrients: {
             growthFormula: -4,
@@ -23,7 +24,8 @@ const crops = {
         src: {
             normal: 'crop_normal/corn.png',
             giant: 'crop_giant/corn.png',
-            seeds: 'crop_seeds/Clustered_Seeds.png'
+            seeds: 'crop_seeds/Clustered_Seeds.png',
+            plant: 'crop_plant/Corn_Stalk.png'
         },
         nutrients: {
             growthFormula: 2,
@@ -39,7 +41,8 @@ const crops = {
         src: {
             normal: 'crop_normal/potato.png',
             giant: 'crop_giant/potato.png',
-            seeds: 'crop_seeds/Fluffy_Seeds.png'
+            seeds: 'crop_seeds/Fluffy_Seeds.png',
+            plant: 'crop_plant/Potato_Plant.png'
         },
         nutrients: {
             growthFormula: 2,
@@ -55,7 +58,8 @@ const crops = {
         src: {
             normal: 'crop_normal/toma-root.png',
             giant: 'crop_giant/toma-root.png',
-            seeds: 'crop_seeds/Spiky_Seeds.png'
+            seeds: 'crop_seeds/Spiky_Seeds.png',
+            plant: 'crop_plant/Toma_Root_Plant.png'
         },
         nutrients: {
             growthFormula: -2,
@@ -71,7 +75,8 @@ const crops = {
         src: {
             normal: 'crop_normal/asparagus.png',
             giant: 'crop_giant/asparagus.png',
-            seeds: 'crop_seeds/Tubular_Seeds.png'
+            seeds: 'crop_seeds/Tubular_Seeds.png',
+            plant: 'crop_plant/Asparagus_Fern.png'
         },
         nutrients: {
             growthFormula: 2,
@@ -87,7 +92,8 @@ const crops = {
         src: {
             normal: 'crop_normal/eggplant.png',
             giant: 'crop_giant/eggplant.png',
-            seeds: 'crop_seeds/Swirly_Seeds.png'
+            seeds: 'crop_seeds/Swirly_Seeds.png',
+            plant: 'crop_plant/Eggplant_Stalk.png'
         },
         nutrients: {
             growthFormula: 2,
@@ -103,7 +109,8 @@ const crops = {
         src: {
             normal: 'crop_normal/pumpkin.png',
             giant: 'crop_giant/pumpkin.png',
-            seeds: 'crop_seeds/Sharp_Seeds.png'
+            seeds: 'crop_seeds/Sharp_Seeds.png',
+            plant: 'crop_plant/Pumpkin_Plant.png'
         },
         nutrients: {
             growthFormula: -4,
@@ -119,7 +126,8 @@ const crops = {
         src: {
             normal: 'crop_normal/watermelon.png',
             giant: 'crop_giant/watermelon.png',
-            seeds: 'crop_seeds/Square_Seeds.png'
+            seeds: 'crop_seeds/Square_Seeds.png',
+            plant: 'crop_plant/Watermelon_Plant.png'
         },
         nutrients: {
             growthFormula: 4,
@@ -135,7 +143,8 @@ const crops = {
         src: {
             normal: 'crop_normal/dragon-fruit.png',
             giant: 'crop_giant/dragon-fruit.png',
-            seeds: 'crop_seeds/Bulbous_Seeds.png'
+            seeds: 'crop_seeds/Bulbous_Seeds.png',
+            plant: 'crop_plant/Dragon_Fruit_Vine.png'
         },
         nutrients: {
             growthFormula: 4,
@@ -151,7 +160,8 @@ const crops = {
         src: {
             normal: 'crop_normal/durian.png',
             giant: 'crop_giant/durian.png',
-            seeds: 'crop_seeds/Brittle_Seed_Pods.png'
+            seeds: 'crop_seeds/Brittle_Seed_Pods.png',
+            plant: 'crop_plant/Durian_Vine.png'
         },
         nutrients: {
             growthFormula: 4,
@@ -167,7 +177,8 @@ const crops = {
         src: {
             normal: 'crop_normal/garlic.png',
             giant: 'crop_giant/garlic.png',
-            seeds: 'crop_seeds/Seed_Pods.png'
+            seeds: 'crop_seeds/Seed_Pods.png',
+            plant: 'crop_plant/Garlic_Plant.png'
         },
         nutrients: {
             growthFormula: 4,
@@ -183,7 +194,8 @@ const crops = {
         src: {
             normal: 'crop_normal/onion.png',
             giant: 'crop_giant/onion.png',
-            seeds: 'crop_seeds/Pointy_Seeds.png'
+            seeds: 'crop_seeds/Pointy_Seeds.png',
+            plant: 'crop_plant/Onion_Plant.png'
         },
         nutrients: {
             growthFormula: -8,
@@ -199,7 +211,8 @@ const crops = {
         src: {
             normal: 'crop_normal/pepper.png',
             giant: 'crop_giant/pepper.png',
-            seeds: 'crop_seeds/Lumpy_Seeds.png'
+            seeds: 'crop_seeds/Lumpy_Seeds.png',
+            plant: 'crop_plant/Pepper_Plant.png'
         },
         nutrients: {
             growthFormula: 4,
@@ -215,7 +228,8 @@ const crops = {
         src: {
             normal: 'crop_normal/pomegranate.png',
             giant: 'crop_giant/pomegranate.png',
-            seeds: 'crop_seeds/Windblown_Seeds.png'
+            seeds: 'crop_seeds/Windblown_Seeds.png',
+            plant: 'crop_plant/Pomegranate_Branch.png'
         },
         nutrients: {
             growthFormula: -8,
