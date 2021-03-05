@@ -36,6 +36,7 @@ export default {
   margin-left: 10px;
   padding: 3px;
 }
+
 .season-switch:hover {
   filter: drop-shadow(0px 0px 4px #ccc);
 }

@@ -16,7 +16,10 @@
     <div id="status-bar-container">
       <StatusBar
         @selectSeason="setSeason"
-        :currentSeason="currentSeason"/>
+        @setActionDetails="setActionDetails"
+        :currentAction="currentAction"
+        :currentSeason="currentSeason"
+        :actionDetails="actionDetails"/>
     </div>
   </div>
 </template>
@@ -38,7 +41,8 @@ export default {
   data () {
     return {
       currentAction: null,
-      currentSeason: 'autumn'
+      currentSeason: 'autumn',
+      actionDetails: null
     }
   },
   methods: {
@@ -46,7 +50,10 @@ export default {
       this.currentAction = action
     },
     setSeason (season) {
-      this.currentSeason = season;
+      this.currentSeason = season
+    },
+    setActionDetails (actionDetails) {
+      this.actionDetails = actionDetails
     }
   }
 }

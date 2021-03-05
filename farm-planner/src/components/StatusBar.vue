@@ -1,6 +1,6 @@
 <template>
   <div id="status-bar">
-    <div class="section-header">Farm Status</div>
+    <div class="section-header padding">Farm Status</div>
     <div id="season-select">
       <div id="season-selector-label">
         Season
@@ -16,19 +16,36 @@
     </div>
     
     <hr class="section-divider"/>
+
+    <div v-if="actionSelected('plant')" class="remaining-height">
+      <div class="section-header">
+        Plant Crops
+      </div>
+      <CropSelector 
+        :currentAction="currentAction"
+        :actionDetails="actionDetails"
+        @setActionDetails="setActionDetails"
+        />
+    </div>
   </div>
 </template>
 
 <script>
 import {seasons} from './Seasons/const'
 import SeasonSwitch from './StatusBar/SeasonSwitch'
+import CropSelector from './StatusBar/CropSelector'
 
 export default {
   name: 'StatusBar',
   components: {
-    SeasonSwitch
+    SeasonSwitch,
+    CropSelector
   },
-  props: ['currentSeason'],
+  props: [
+    'currentSeason',
+    'currentAction',
+    'actionDetails'
+  ],
   data () {
     return {
       seasons
@@ -40,6 +57,12 @@ export default {
     },
     isSeasonSelected (config) {
       return config.season === this.currentSeason
+    },
+    actionSelected (action) {
+      return action === this.currentAction
+    },
+    setActionDetails (actionDetails) {
+      this.$emit('setActionDetails', actionDetails)
     }
   }
 }
@@ -48,6 +71,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #status-bar {
+  height: 100%;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -56,7 +80,7 @@ export default {
 .section-header {
   font-family: belisa_plumilla;
   text-align: center;
-  padding: 15px;
+  font-size: 1.25em;
 }
 
 .section-divider {
@@ -71,4 +95,20 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
+.padding {
+  padding: 15px;
+}
+
+.space-around {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+.remaining-height {
+  flex-grow: 1;
+}
+
 </style>
