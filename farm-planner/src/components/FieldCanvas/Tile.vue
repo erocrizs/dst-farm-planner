@@ -1,5 +1,5 @@
 <template>
-  <div class="tile" :class="{plotted}">
+  <div class="tile" :class="{plotted}" @click="clicked">
     <div class="plot-container">
       <div
         v-if="plotted"
@@ -39,6 +39,18 @@ export default {
         gridTemplateColumns
       }
     }
+  },
+  methods: {
+    clicked () {
+      if (this.currentAction === 'plot' && !this.plotted) {
+        this.tileData.plow()
+        this.plotted = true
+      }
+      if (this.currentAction === 'flatten' && this.plotted) {
+        this.tileData.destroyPlots()
+        this.plotted = false
+      }
+    }
   }
 }
 </script>
@@ -49,6 +61,8 @@ export default {
   height: 100%;
   border: 2px dashed green;
   box-sizing: border-box;
+  background-image: none;
+  transition: background-image 5s ease-in-out;
 }
 
 .tile.plotted {
