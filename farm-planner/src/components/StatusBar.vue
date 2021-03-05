@@ -1,5 +1,5 @@
 <template>
-  <div id="status-bar">
+  <div id="status-bar" class="column-flex">
     <div class="section-header padding">Farm Status</div>
     <div id="season-select">
       <div id="season-selector-label">
@@ -17,10 +17,7 @@
     
     <hr class="section-divider"/>
 
-    <div v-if="actionSelected('plant')" class="remaining-height">
-      <div class="section-header">
-        Plant Crops
-      </div>
+    <div v-if="actionSelected('plant')" class="column-flex remaining-height">
       <CropSelector 
         :currentAction="currentAction"
         :actionDetails="actionDetails"
@@ -69,12 +66,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 #status-bar {
   height: 100%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
 }
 
 .section-header {
@@ -108,7 +102,34 @@ export default {
 }
 
 .remaining-height {
-  flex-grow: 1;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  min-height: 0px;
+}
+
+.remaining-height::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.remaining-height::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+.remaining-height::-webkit-scrollbar-thumb {
+  background: #342517; 
+}
+
+/* Handle on hover */
+.remaining-height::-webkit-scrollbar-thumb:hover {
+  background: #ccc; 
+}
+
+.column-flex {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
 }
 
 </style>

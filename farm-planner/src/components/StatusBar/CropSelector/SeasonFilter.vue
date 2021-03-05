@@ -24,7 +24,7 @@ export default {
     triggerEvent () {
       this.filter = !this.filter
       this.$emit(
-        'clicked',
+        'click',
         {
           season: this.config.season,
           filter: this.filter

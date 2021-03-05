@@ -48,6 +48,7 @@ export default {
   methods: {
     setAction (action) {
       this.currentAction = action
+      this.actionDetails = null
     },
     setSeason (season) {
       this.currentSeason = season
@@ -68,6 +69,10 @@ export default {
 
   #app {
     height: 100%;
+    
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
   }
 
   #navigation-bar-container {
@@ -81,7 +86,7 @@ export default {
   }
 
   #field-canvas-container {
-    height: 100vw;
+    max-height: calc(100vh - 170px);
   }
 
   #status-bar-container {
@@ -91,7 +96,8 @@ export default {
     background-color: #9b7b5d;
     color: #342517;
 
-    min-height: calc(100vh - 100px - 100vw);
+    flex-grow: 1;
+    max-height: 100vh;
   }
 
   #tool-bar-container {
@@ -120,6 +126,7 @@ export default {
 
     #status-bar-container {
       grid-area: 2/2/span 2/span 1;
+      max-height: none;
     }
 
     #tool-bar-container {

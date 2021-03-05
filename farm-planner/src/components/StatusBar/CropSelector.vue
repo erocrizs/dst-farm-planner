@@ -1,5 +1,8 @@
 <template>
-  <div id="crop-selector">
+  <div id="crop-selector" class="column-flex remaining-height">
+      <div class="section-header">
+        Plant Crops
+      </div>
     <div id="crop-filters">
       <div id="crop-nutrient-filters">
         <NutrientFilter
@@ -14,25 +17,32 @@
           v-for="(season, index) in seasons"
           :key="index"
           :config="season"
-          @clicked="seasonClicked"/>
+          @click="seasonClicked"/>
       </div>
     </div>
-    <div id="crop-seeds">
-      Seeds
+    <div id="crop-list" class="column-flex remaining-height">
+      <CropRow
+        v-for="(config, index) in crops"
+        :key="index"
+        :selected="isCropSelected(config.crop)"
+        :config="config"
+        @click="cropClicked"/>
     </div>
   </div>
 </template>
 
 <script>
+import CropRow from './CropSelector/CropRow'
 import SeasonFilter from './CropSelector/SeasonFilter'
 import NutrientFilter from './CropSelector/NutrientFilter'
-import {nutrients, intakes} from './const';
+import {nutrients, intakes} from './const'
 import {seasons} from '../Seasons/const'
+import {crops} from '../Crops/const'
  
 export default {
   name: 'CropSelector',
   props: ['currentAction', 'actionDetails'],
-  components: {NutrientFilter, SeasonFilter},
+  components: {NutrientFilter, SeasonFilter, CropRow},
   data () {
     return {
       filters: {
@@ -40,7 +50,8 @@ export default {
         nutrients: {}
       },
       nutrients,
-      seasons
+      seasons,
+      crops
     }
   },
   methods: {
@@ -54,12 +65,68 @@ export default {
     },
     setNutrientFilter ({nutrient, filter}) {
       this.filters.nutrients[nutrient] = filter
+      this.crops = this.filterCrops()
     },
     isSeasonSelected (season) {
       return !!this.filters.seasons[season]
     },
     seasonClicked ({season, filter}) {
-      this.filters.seasons[season] = filter;
+      this.filters.seasons[season] = filter
+      this.crops = this.filterCrops()
+    },
+    isCropSelected (crop) {
+      return this.actionDetails === crop
+    },
+    filterCrops () {
+      const filteredCrops = {}
+
+      for (let cropKey in crops) {
+        const cropConfig = crops[cropKey]
+        let include = true
+
+        for (let season in this.filters.seasons) {
+          const requiredSeason = !!this.filters.seasons[season]
+          if (requiredSeason && !cropConfig.seasons.includes(season)) {
+            include = false
+            break
+          }
+        }
+
+        for (let nutrient in this.filters.nutrients) {
+          const nutrientIntake = this.filters.nutrients[nutrient]
+          const failPositive = (nutrientIntake === '+' && cropConfig.nutrients[nutrient] < 0);
+          const failNegative = (nutrientIntake === '-' && cropConfig.nutrients[nutrient] > 0);
+          if (failPositive || failNegative) {
+            include = false
+            break
+          }
+        }
+
+        if (include) {
+          filteredCrops[cropKey] = cropConfig
+        }
+      }
+
+      return filteredCrops
+    },
+    passesFilter (cropConfig) {
+      for (let season in this.filters.seasons) {
+        const requiredSeason = !!this.filters.seasons[season]
+        if (requiredSeason && !cropConfig.seasons.includes(season)) {
+          return false
+        }
+      }
+
+      for (let nutrient in this.filters.nutrients) {
+        const nutrientIntake = this.filters.nutrients[nutrient]
+        const failPositive = (nutrientIntake === '+' && cropConfig.nutrients[nutrient] < 0);
+        const failNegative = (nutrientIntake === '-' && cropConfig.nutrients[nutrient] > 0);
+        if (failPositive || failNegative) {
+          return false;
+        }
+      }
+
+      return true;
     }
   }
 }

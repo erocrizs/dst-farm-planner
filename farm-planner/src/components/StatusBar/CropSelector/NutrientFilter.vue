@@ -20,7 +20,7 @@ export default {
   props: ['config'],
   data () {
     return {
-      filter: null
+      filter: null,
     }
   },
   methods: {
