@@ -10,7 +10,11 @@
           />
       </div>
       <div id="crop-season-filters">
-        
+        <SeasonFilter
+          v-for="(season, index) in seasons"
+          :key="index"
+          :config="season"
+          @clicked="seasonClicked"/>
       </div>
     </div>
     <div id="crop-seeds">
@@ -20,20 +24,23 @@
 </template>
 
 <script>
+import SeasonFilter from './CropSelector/SeasonFilter'
 import NutrientFilter from './CropSelector/NutrientFilter'
 import {nutrients, intakes} from './const';
+import {seasons} from '../Seasons/const'
  
 export default {
   name: 'CropSelector',
   props: ['currentAction', 'actionDetails'],
-  components: {NutrientFilter},
+  components: {NutrientFilter, SeasonFilter},
   data () {
     return {
       filters: {
         seasons: {},
         nutrients: {}
       },
-      nutrients
+      nutrients,
+      seasons
     }
   },
   methods: {
@@ -47,23 +54,30 @@ export default {
     },
     setNutrientFilter ({nutrient, filter}) {
       this.filters.nutrients[nutrient] = filter
+    },
+    isSeasonSelected (season) {
+      return !!this.filters.seasons[season]
+    },
+    seasonClicked ({season, filter}) {
+      this.filters.seasons[season] = filter;
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #crop-filter {
   padding-top: 15px;
   padding-bottom: 15px;
 }
 
-#crop-nutrient-filters {
+#crop-nutrient-filters, #crop-season-filters {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
+  padding: 15px;
+  padding: 15px;
 }
 
 .filter:hover img {

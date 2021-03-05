@@ -78,11 +78,9 @@ export default {
 </script>
 
 <style scoped>
-.nutrient-filter {
-  width: 60px;
-  
+.nutrient-filter {  
   display: grid;
-  grid-template: 30px / 30px 30px;
+  grid-template: 1em / 1em 1em;
 }
 
 .nutrient-filter img.label {
@@ -93,7 +91,6 @@ export default {
 
 .nutrient-filter img.filter {
   grid-area: 1 / 2 / span 1 / span 1;
-  width: 100%;
   height: 100%;
   text-align: center;
   box-sizing: border-box;
