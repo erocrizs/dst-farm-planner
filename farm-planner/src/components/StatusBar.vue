@@ -17,7 +17,7 @@
     
     <hr class="section-divider"/>
 
-    <div v-if="actionSelected('plant')" class="column-flex remaining-height">
+    <div v-if="this.currentAction === 'plant'" class="column-flex remaining-height">
       <CropSelector 
         :currentAction="currentAction"
         :actionDetails="actionDetails"
@@ -75,7 +75,6 @@ export default {
 .section-header {
   font-family: belisa_plumilla;
   text-align: center;
-  font-size: 1.25em;
 }
 
 .section-divider {

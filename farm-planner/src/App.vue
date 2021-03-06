@@ -88,6 +88,27 @@ export default {
   #field-canvas-container {
     min-height: 500px;
     max-height: calc(100vh - 170px);
+    overflow: auto;
+  }
+
+  #field-canvas-container::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  /* Track */
+  #field-canvas-container::-webkit-scrollbar-track {
+    background: #342517; 
+  }
+
+  /* Track */
+  #field-canvas-container::-webkit-scrollbar-corner {
+    background: #342517; 
+  }
+  
+  /* Handle */
+  #field-canvas-container::-webkit-scrollbar-thumb {
+    background: #9b7b5d; 
   }
 
   #status-bar-container {

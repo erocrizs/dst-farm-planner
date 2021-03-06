@@ -1,6 +1,6 @@
 <template>
   <div id="field-canvas"
-    :style="turfStyle">
+    :style="fieldCanvasStyle">
     <div id="tiles-container"
       :style="tileGridStyle">
       <div
@@ -35,10 +35,12 @@ export default {
     return {farmData}
   },
   computed: {
-    turfStyle () {
+    fieldCanvasStyle () {
       const {turf} = seasons[this.currentSeason]
       return {
-        backgroundImage: `url(../static/${turf})`
+        backgroundImage: `url(../static/${turf})`,
+        height: `${(tileHeightPx * height) + 80}px`,
+        width: `${(tileWidthPx * width) + 80}px`
       }
     },
     tileGridStyle () {
@@ -60,9 +62,8 @@ export default {
   background-repeat: repeat;
   transition: background-image 0.5s ease-in-out;
   position: relative;
-
-  overflow: scroll;
-  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 #tiles-container {
