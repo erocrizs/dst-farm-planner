@@ -1,15 +1,22 @@
 <template>
-  <div class="plot" :style="border" @click="handleClick">
-    <img v-if="crop" :src="imgSrc"/>
+  <div
+    class="plot"
+    :style="border"
+    @click="handleClick">
+    <img
+      v-if="crop"
+      :src="imgSrc"
+      :style="customSize(crop)"/>
   </div>
 </template>
 
 <script>
 import crops from '@/library/crops'
+import field from '@/library/field'
 
 export default {
   name: 'Plot',
-  props: ['plotData', 'currentAction', 'actionDetails'],
+  props: ['plotData', 'currentAction', 'actionDetails', 'giant'],
   data () {
     return {
       border: {
@@ -29,15 +36,28 @@ export default {
       }
     },
     plantCrop () {
-      if (this.actionDetails) {
+      if (this.actionDetails && this.crop === null) {
         this.plotData.plant(this.actionDetails)
         this.crop = this.actionDetails
       }
+    },
+    customSize (crop) {
+      const type = this.giant ? 'giant' : 'plant'
+      const basisCrop = field.cropBasis[type]
+      const basisWidth = crops[basisCrop].dimensions[type].x
+      const cropDimensions = crops[crop].dimensions[type]
+      const cropWidth = cropDimensions.x * cropDimensions.multiplier
+      const plotSize = field.plotSizePx
+
+      const width = cropWidth * plotSize / basisWidth
+
+      return {width: `${width}px`}
     }
   },
   computed: {
     imgSrc () {
-      return './static/' + crops[this.crop].src.plant
+      const type = this.giant ? 'giant' : 'plant'
+      return './static/' + crops[this.crop].src[type]
     }
   }
 }
@@ -55,7 +75,6 @@ export default {
 
 .plot img {
   position: absolute;
-  width: 100%;
   bottom: 3px;
   left: 50%;
   transform: translate(-50%, 0%);
