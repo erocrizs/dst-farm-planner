@@ -19,7 +19,7 @@
         @setActionDetails="setActionDetails"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
-        :actionDetails="actionDetails"/>
+        :actionDetails="currentActionDetail"/>
     </div>
   </div>
 </template>
@@ -41,20 +41,22 @@ export default {
   data () {
     return {
       currentAction: null,
+      currentActionDetail: null,
       currentSeason: 'autumn',
-      actionDetails: null
+      actionDetails: {}
     }
   },
   methods: {
     setAction (action) {
       this.currentAction = action
-      this.actionDetails = null
+      this.currentActionDetail = this.actionDetails[this.currentAction] || null
     },
     setSeason (season) {
       this.currentSeason = season
     },
     setActionDetails (actionDetails) {
-      this.actionDetails = actionDetails
+      this.actionDetails[this.currentAction] = actionDetails
+      this.currentActionDetail = actionDetails
     }
   }
 }
