@@ -86,6 +86,7 @@ export default {
   }
 
   #field-canvas-container {
+    min-height: 500px;
     max-height: calc(100vh - 170px);
   }
 
@@ -121,7 +122,7 @@ export default {
 
     #field-canvas-container {
       grid-area: 2/1/span 2/span 1;
-      height: inherit;
+      max-height: none;
     }
 
     #status-bar-container {
@@ -131,6 +132,7 @@ export default {
 
     #tool-bar-container {
       height: auto;
+      z-index: 1;
       grid-area: 3/1/span 1/span 1;
       background-color: transparent;
     }

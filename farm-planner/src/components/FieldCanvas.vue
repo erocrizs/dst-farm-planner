@@ -56,26 +56,29 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #field-canvas {
-  height: 100%;
-
   background-size: 768px;
   background-repeat: repeat;
   transition: background-image 0.5s ease-in-out;
+  position: relative;
 
   overflow: scroll;
+  height: 100%;
 }
 
 #tiles-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   display: grid;
 }
 
 @media screen and (min-width: 780px) {
     #field-canvas {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
+      height: 100%;
       overflow: hidden;
+      padding: 0px;
     }
 
     #tiles-container {
