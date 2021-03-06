@@ -33,12 +33,20 @@ export default {
       switch (this.currentAction) {
         case 'plant':
           return this.plantCrop()
+        case 'destroy':
+          return this.destroyCrop()
       }
     },
     plantCrop () {
       if (this.actionDetails && this.crop === null) {
         this.plotData.plant(this.actionDetails)
         this.crop = this.actionDetails
+      }
+    },
+    destroyCrop () {
+      if (this.crop !== null) {
+        this.plotData.destroy()
+        this.crop = null
       }
     },
     customSize (crop) {
