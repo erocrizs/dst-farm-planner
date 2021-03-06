@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import nutrients from '@/library/nutrients'
-
 export default {
   name: 'NutrientFilter',
   props: ['config'],

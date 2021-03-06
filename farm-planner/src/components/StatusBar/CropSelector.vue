@@ -95,8 +95,8 @@ export default {
 
         for (let nutrient in this.filters.nutrients) {
           const nutrientIntake = this.filters.nutrients[nutrient]
-          const failPositive = (nutrientIntake === '+' && cropConfig.nutrients[nutrient] < 0);
-          const failNegative = (nutrientIntake === '-' && cropConfig.nutrients[nutrient] > 0);
+          const failPositive = (nutrientIntake === '+' && cropConfig.nutrients[nutrient] < 0)
+          const failNegative = (nutrientIntake === '-' && cropConfig.nutrients[nutrient] > 0)
           if (failPositive || failNegative) {
             include = false
             break
@@ -109,25 +109,6 @@ export default {
       }
 
       return filteredCrops
-    },
-    passesFilter (cropConfig) {
-      for (let season in this.filters.seasons) {
-        const requiredSeason = !!this.filters.seasons[season]
-        if (requiredSeason && !cropConfig.seasons.includes(season)) {
-          return false
-        }
-      }
-
-      for (let nutrient in this.filters.nutrients) {
-        const nutrientIntake = this.filters.nutrients[nutrient]
-        const failPositive = (nutrientIntake === '+' && cropConfig.nutrients[nutrient] < 0);
-        const failNegative = (nutrientIntake === '-' && cropConfig.nutrients[nutrient] > 0);
-        if (failPositive || failNegative) {
-          return false;
-        }
-      }
-
-      return true;
     }
   }
 }
