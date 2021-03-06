@@ -16,7 +16,7 @@
 <script>
 import Plot from './Plot'
 
-import {field} from './const'
+import field from '@/library/field'
 
 const {plotSizePx} = field;
 

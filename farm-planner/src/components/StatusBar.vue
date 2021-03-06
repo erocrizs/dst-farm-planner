@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import {seasons} from './Seasons/const'
 import SeasonSwitch from './StatusBar/SeasonSwitch'
 import CropSelector from './StatusBar/CropSelector'
+
+import seasons from '@/library/seasons'
 
 export default {
   name: 'StatusBar',

@@ -35,9 +35,10 @@
 import CropRow from './CropSelector/CropRow'
 import SeasonFilter from './CropSelector/SeasonFilter'
 import NutrientFilter from './CropSelector/NutrientFilter'
-import {nutrients, intakes} from './const'
-import {seasons} from '../Seasons/const'
-import {crops} from '../Crops/const'
+
+import nutrients from '@/library/nutrients'
+import seasons from '@/library/seasons'
+import crops from '@/library/crops'
  
 export default {
   name: 'CropSelector',

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {nutrients, intakes} from '../const';
+import nutrients from '@/library/nutrients'
 
 export default {
   name: 'NutrientFilter',
@@ -26,16 +26,6 @@ export default {
   methods: {
     staticPath (path) {
       return './static/' + path
-    },
-    nutrientFilterSrc (filter) {
-      switch (filter) {
-        case '+':
-          return intakes[2].imgSrc
-        case '-':
-          return intakes[-2].imgSrc
-        default:
-          return intakes[0].imgSrc
-      }
     },
     toggleNutrientFilter () {
       if (this.filter === null) {
@@ -66,11 +56,11 @@ export default {
     intakeSrc () {
       switch (this.filter) {
         case '+':
-          return intakes[2].imgSrc
+          return 'nutrients/nutrient-one-down.png'
         case '-':
-          return intakes[-2].imgSrc
+          return 'nutrients/nutrient-one-up.png'
         default:
-          return intakes[0].imgSrc
+          return 'nutrients/nutrient-neutral.png'
       }
     }
   }

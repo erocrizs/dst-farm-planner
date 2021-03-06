@@ -1,6 +1,6 @@
 'use strict'
 
-const seasons = {
+export default {
     autumn: {
         season: 'autumn',
         symbol: 'seasons/autumn_symbol.png',
@@ -22,5 +22,3 @@ const seasons = {
         turf: 'canvas/Savanna_Turf_Texture.png'
     }
 };
-
-export {seasons};

@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import {seasons} from '../../Seasons/const'
-import {nutrients} from '../const'
+import nutrients from '@/library/nutrients'
+import seasons from '@/library/seasons'
 
 
 export default {

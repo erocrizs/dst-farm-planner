@@ -1,6 +1,6 @@
 'use strict'
 
-const crops = {
+export default {
     carrot: {
         crop: 'carrot',
         name: 'Carrot',
@@ -240,5 +240,3 @@ const crops = {
         drink: 2
     }
 };
-
-export {crops};

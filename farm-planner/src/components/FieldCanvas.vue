@@ -17,9 +17,9 @@
 <script>
 import Tile from './FieldCanvas/Tile'
 
-import FarmData from '../library/FarmData'
-import {field} from './FieldCanvas/const'
-import {seasons} from './Seasons/const'
+import FarmData from '@/library/FarmData'
+import seasons from '@/library/seasons'
+import field from '@/library/field'
 
 const height = field.tileRows
 const width = field.tileCols

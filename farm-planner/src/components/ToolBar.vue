@@ -13,8 +13,9 @@
 </template>
 
 <script>
-import constants from './ToolBar/const'
 import Tool from './ToolBar/Tool'
+
+import tools from '@/library/tools'
 
 export default {
   name: 'ToolBar',
@@ -22,7 +23,7 @@ export default {
   props: ['currentAction'],
   data () {
     return {
-      tools: constants.tools
+      tools: tools
     }
   },
   methods: {
