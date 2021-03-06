@@ -8,7 +8,8 @@
         :key="index">
         <Tile
           :tileData="tileData"
-          :currentAction="currentAction"/>
+          :currentAction="currentAction"
+          :actionDetails="actionDetails"/>
       </div>
     </div>
   </div>
@@ -29,7 +30,7 @@ const farmData = new FarmData(height, width)
 
 export default {
   name: 'FieldCanvas',
-  props: ['currentAction', 'currentSeason'],
+  props: ['currentAction', 'currentSeason', 'actionDetails'],
   components: {Tile},
   data () {
     return {farmData}

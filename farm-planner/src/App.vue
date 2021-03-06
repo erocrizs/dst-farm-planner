@@ -6,7 +6,8 @@
     <div id="field-canvas-container">
       <FieldCanvas
         :currentAction="currentAction"
-        :currentSeason="currentSeason"/>
+        :currentSeason="currentSeason"
+        :actionDetails="currentActionDetail"/>
     </div>
     <div id="tool-bar-container">
       <ToolBar 

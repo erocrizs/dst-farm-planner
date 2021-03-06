@@ -6,7 +6,8 @@
         :key="index">
         <Plot
           :plotData="plotData"
-          :currentAction="currentAction"/>
+          :currentAction="currentAction"
+          :actionDetails="actionDetails"/>
       </div>
     </div>
   </div>
@@ -22,7 +23,7 @@ const {plotSizePx} = field;
 export default {
   name: 'Tile',
   components: {Plot},
-  props: ['tileData', 'currentAction'],
+  props: ['tileData', 'currentAction', 'actionDetails'],
   data () {
     return {
       plotted: this.tileData.plotted
