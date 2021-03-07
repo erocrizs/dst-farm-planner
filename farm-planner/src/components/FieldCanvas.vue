@@ -9,6 +9,7 @@
         <Tile
           :tileData="tileData"
           :currentAction="currentAction"
+          :currentSeason="currentSeason"
           :actionDetails="actionDetails"/>
       </div>
     </div>

@@ -6,7 +6,8 @@
     <img
       v-if="crop"
       :src="imgSrc"
-      :style="customSize(crop)"/>
+      :style="customSize(crop)"
+      :class="{'giant-glow': giant}"/>
   </div>
 </template>
 
@@ -16,7 +17,7 @@ import field from '@/library/field'
 
 export default {
   name: 'Plot',
-  props: ['plotData', 'currentAction', 'actionDetails', 'giant'],
+  props: ['plotData', 'currentAction', 'currentSeason', 'actionDetails'],
   data () {
     return {
       border: {
@@ -25,7 +26,7 @@ export default {
         borderLeftWidth: this.plotData.y > 0 ? '1px' : '0px',
         borderRightWidth: this.plotData.y < 2 ? '1px' : '0px'
       },
-      crop: null
+      crop: null,
     }
   },
   methods: {
@@ -60,13 +61,24 @@ export default {
       const width = cropWidth * plotSize / basisWidth
 
       return {width: `${width}px`}
-    }
+    },
   },
   computed: {
     imgSrc () {
       const type = this.giant ? 'giant' : 'plant'
       return './static/' + crops[this.crop].src[type]
-    }
+    },
+    giant () {
+      const seasonStress = !crops[this.crop]
+        .seasons
+        .includes(this.currentSeason)
+
+      const familyStress = false
+
+      const nutrientStress = false
+
+      return !(seasonStress || familyStress || nutrientStress)
+    },
   }
 }
 </script>
@@ -87,5 +99,9 @@ export default {
   left: 50%;
   transform: translate(-50%, 0%);
   pointer-events: none;
+}
+
+.giant-glow {
+  filter: drop-shadow(0px 0px 2px #ccc)
 }
 </style>

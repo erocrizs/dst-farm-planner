@@ -7,6 +7,7 @@
         <Plot
           :plotData="plotData"
           :currentAction="currentAction"
+          :currentSeason="currentSeason"
           :actionDetails="actionDetails"/>
       </div>
     </div>
@@ -23,7 +24,7 @@ const {plotSizePx} = field;
 export default {
   name: 'Tile',
   components: {Plot},
-  props: ['tileData', 'currentAction', 'actionDetails'],
+  props: ['tileData', 'currentAction', 'currentSeason', 'actionDetails'],
   data () {
     return {
       plotted: this.tileData.plotted
