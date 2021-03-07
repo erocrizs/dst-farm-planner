@@ -28,6 +28,11 @@ export default {
     'manure',
   ],
   data () {
+    const family = {}
+    for (let crop in crops) {
+      family[crop] = 0
+    }
+
     return {
       border: {
         borderTopWidth: this.plotData.x > 0 ? '1px' : '0px',
@@ -36,6 +41,7 @@ export default {
         borderRightWidth: this.plotData.y < 2 ? '1px' : '0px'
       },
       crop: null,
+      family
     }
   },
   methods: {
@@ -73,18 +79,34 @@ export default {
 
       return {width: `${width}px`}
     },
+    neighborUpdated (fromType, toType) {
+      if (fromType) {
+        this.family[fromType]--;
+      }
+      if (toType) {
+        this.family[toType]++;
+      }
+    }
   },
   computed: {
     imgSrc () {
+      if (!this.crop) {
+        return ''
+      }
+
       const type = this.giant ? 'giant' : 'plant'
       return './static/' + crops[this.crop].src[type]
     },
     giant () {
+      if (!this.crop) {
+        return false
+      }
+
       const seasonStress = !crops[this.crop]
         .seasons
         .includes(this.currentSeason)
 
-      const familyStress = false
+      const familyStress = this.family[this.crop] < 3
 
       const nutrientStress = !this.nutrientBalance
 
