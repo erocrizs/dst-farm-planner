@@ -8,7 +8,10 @@
           :plotData="plotData"
           :currentAction="currentAction"
           :currentSeason="currentSeason"
-          :actionDetails="actionDetails"/>
+          :actionDetails="actionDetails"
+          :nutrientBalance="nutrientBalance"
+          @plantCrop="plantCrop"
+          @destroyCrop="destroyCrop"/>
       </div>
     </div>
   </div>
@@ -18,6 +21,7 @@
 import Plot from './Plot'
 
 import field from '@/library/field'
+import crops from '@/library/crops'
 
 const {plotSizePx} = field;
 
@@ -27,7 +31,12 @@ export default {
   props: ['tileData', 'currentAction', 'currentSeason', 'actionDetails'],
   data () {
     return {
-      plotted: this.tileData.plotted
+      plotted: this.tileData.plotted,
+      nutrients: {
+        growthFormula: 0,
+        compost: 0,
+        manure: 0
+      }
     }
   },
   computed: {
@@ -39,6 +48,11 @@ export default {
         gridTemplateRows,
         gridTemplateColumns
       }
+    },
+    nutrientBalance () {
+      return this.nutrients.growthFormula >= 0
+        && this.nutrients.compost >= 0
+        && this.nutrients.manure >= 0
     }
   },
   methods: {
@@ -50,6 +64,16 @@ export default {
       if (this.currentAction === 'flatten' && this.plotted) {
         this.tileData.destroyPlots()
         this.plotted = false
+      }
+    },
+    plantCrop (crop) {
+      for (let nutrient in crops[crop].nutrients) {
+        this.nutrients[nutrient] += crops[crop].nutrients[nutrient]
+      }
+    },
+    destroyCrop (crop) {
+      for (let nutrient in crops[crop].nutrients) {
+        this.nutrients[nutrient] -= crops[crop].nutrients[nutrient]
       }
     }
   }

@@ -17,7 +17,13 @@ import field from '@/library/field'
 
 export default {
   name: 'Plot',
-  props: ['plotData', 'currentAction', 'currentSeason', 'actionDetails'],
+  props: [
+    'plotData',
+    'currentAction',
+    'currentSeason',
+    'actionDetails',
+    'nutrientBalance'
+  ],
   data () {
     return {
       border: {
@@ -42,10 +48,12 @@ export default {
       if (this.actionDetails && this.crop === null) {
         this.plotData.plant(this.actionDetails)
         this.crop = this.actionDetails
+        this.$emit('plantCrop', this.crop)
       }
     },
     destroyCrop () {
       if (this.crop !== null) {
+        this.$emit('destroyCrop', this.crop)
         this.plotData.destroy()
         this.crop = null
       }
@@ -75,7 +83,7 @@ export default {
 
       const familyStress = false
 
-      const nutrientStress = false
+      const nutrientStress = !this.nutrientBalance
 
       return !(seasonStress || familyStress || nutrientStress)
     },
