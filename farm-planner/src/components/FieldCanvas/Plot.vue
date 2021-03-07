@@ -18,11 +18,14 @@ import field from '@/library/field'
 export default {
   name: 'Plot',
   props: [
+    'plotIndex',
     'plotData',
     'currentAction',
     'currentSeason',
     'actionDetails',
-    'nutrientBalance'
+    'growthFormula',
+    'compost',
+    'manure',
   ],
   data () {
     return {
@@ -48,14 +51,14 @@ export default {
       if (this.actionDetails && this.crop === null) {
         this.plotData.plant(this.actionDetails)
         this.crop = this.actionDetails
-        this.$emit('plantCrop', this.crop)
+        this.$emit('plantCrop', this.crop, this.plotIndex)
       }
     },
     destroyCrop () {
       if (this.crop !== null) {
-        this.$emit('destroyCrop', this.crop)
         this.plotData.destroy()
         this.crop = null
+        this.$emit('destroyCrop', this.plotIndex)
       }
     },
     customSize (crop) {
@@ -87,6 +90,11 @@ export default {
 
       return !(seasonStress || familyStress || nutrientStress)
     },
+    nutrientBalance () {
+      return this.growthFormula >= 0
+        && this.compost >= 0
+        && this.manure >= 0
+    }
   }
 }
 </script>

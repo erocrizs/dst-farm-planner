@@ -5,11 +5,14 @@
         v-for="(plotData, index) in tileData.plotList"
         :key="index">
         <Plot
+          :plotIndex="index"
           :plotData="plotData"
           :currentAction="currentAction"
           :currentSeason="currentSeason"
           :actionDetails="actionDetails"
-          :nutrientBalance="nutrientBalance"
+          :growthFormula="growthFormula"
+          :compost="compost"
+          :manure="manure"
           @plantCrop="plantCrop"
           @destroyCrop="destroyCrop"/>
       </div>
@@ -32,11 +35,10 @@ export default {
   data () {
     return {
       plotted: this.tileData.plotted,
-      nutrients: {
-        growthFormula: 0,
-        compost: 0,
-        manure: 0
-      }
+      cropList: [],
+      growthFormula: 0,
+      compost: 0,
+      manure: 0
     }
   },
   computed: {
@@ -48,11 +50,6 @@ export default {
         gridTemplateRows,
         gridTemplateColumns
       }
-    },
-    nutrientBalance () {
-      return this.nutrients.growthFormula >= 0
-        && this.nutrients.compost >= 0
-        && this.nutrients.manure >= 0
     }
   },
   methods: {
@@ -66,14 +63,36 @@ export default {
         this.plotted = false
       }
     },
-    plantCrop (crop) {
-      for (let nutrient in crops[crop].nutrients) {
-        this.nutrients[nutrient] += crops[crop].nutrients[nutrient]
-      }
+    plantCrop (cropType, index) {
+      this.addCropNutrients(cropType)
+      this.cropList[index] = cropType
     },
-    destroyCrop (crop) {
-      for (let nutrient in crops[crop].nutrients) {
-        this.nutrients[nutrient] -= crops[crop].nutrients[nutrient]
+    destroyCrop (index) {
+      const cropType = this.cropList[index]
+      const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
+      this.growthFormula -= crops[cropType].nutrients.growthFormula * growthSpeed
+      this.compost -= crops[cropType].nutrients.compost * growthSpeed
+      this.manure -= crops[cropType].nutrients.manure * growthSpeed
+
+      this.cropList[index] = null
+    },
+    addCropNutrients (cropType) {
+      const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
+      this.growthFormula += crops[cropType].nutrients.growthFormula * growthSpeed
+      this.compost += crops[cropType].nutrients.compost * growthSpeed
+      this.manure += crops[cropType].nutrients.manure * growthSpeed
+    }
+  },
+  watch: {
+    currentSeason () {
+      this.growthFormula = 0
+      this.compost = 0
+      this.manure = 0
+
+      for (let cropType of this.cropList) {
+        if (cropType) {
+          this.addCropNutrients(cropType)
+        }
       }
     }
   }
