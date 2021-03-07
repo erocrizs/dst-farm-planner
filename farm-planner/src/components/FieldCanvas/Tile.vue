@@ -1,7 +1,8 @@
 <template>
   <div class="tile" :class="{plotted}" @click="clicked">
-    <div v-if="plotted" class="plot-container">
+    <div class="plot-container">
       <div
+        :style="showWhenPlotted"
         v-for="(plotData, index) in tileData.plotList"
         :key="index">
         <Plot
@@ -32,7 +33,13 @@ const {plotSizePx} = field;
 export default {
   name: 'Tile',
   components: {Plot},
-  props: ['tileData', 'currentAction', 'currentSeason', 'actionDetails'],
+  props: [
+    'tileIndex',
+    'tileData',
+    'currentAction',
+    'currentSeason',
+    'actionDetails'
+  ],
   data () {
     return {
       plotted: this.tileData.plotted,
@@ -51,6 +58,11 @@ export default {
         gridTemplateRows,
         gridTemplateColumns
       }
+    },
+    showWhenPlotted () {
+      return {
+        visibility: this.plotted ? 'visible' : 'hidden'
+      }
     }
   },
   methods: {
@@ -64,15 +76,21 @@ export default {
         this.manure = 0
       }
       if (this.currentAction === 'flatten' && this.plotted) {
-        this.tileData.destroyPlots()
+        this.tileData.destroy()
         this.plotted = false
+
+        for (let plot of this.$refs.plots) {
+          if (plot.crop) {
+            plot.destroyCrop()
+          }          
+        }
       }
     },
     plantCrop (cropType, index) {
       this.addCropNutrients(cropType)
       this.plotCropList[index] = cropType
 
-      this.updateCrops(index, null, cropType)
+      this.cropUpdated(index, null, cropType)
     },
     destroyCrop (index) {
       const cropType = this.plotCropList[index]
@@ -82,7 +100,7 @@ export default {
       this.manure -= crops[cropType].nutrients.manure * growthSpeed
 
       this.plotCropList[index] = null
-      this.updateCrops(index, cropType, index)
+      this.cropUpdated(index, cropType, null)
     },
     addCropNutrients (cropType) {
       const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
@@ -90,7 +108,7 @@ export default {
       this.compost += crops[cropType].nutrients.compost * growthSpeed
       this.manure += crops[cropType].nutrients.manure * growthSpeed
     },
-    updateCrops (index, fromType, toType) {
+    cropUpdated (index, fromType, toType) {
       for (let plot of this.$refs.plots) {
         if (plot.plotIndex !== index) {
           plot.neighborUpdated(fromType, toType)
@@ -103,10 +121,27 @@ export default {
       const coordinates = this.plotIndexToXY(index)
       const eventBody = {
         coordinates,
+        tile: this.tileIndex,
+        tileData: this.tileData,
         from: fromType,
         to: toType
       }
+
       this.$emit('changeCrop', eventBody)  
+    },
+    updateCropNeighbors (sourceCoordinates, fromType, toType) {
+      for (let plot of this.$refs.plots) {
+        const plotCoordinates = this.plotIndexToXY(plot.plotIndex)
+        const distance = this.getDistance(sourceCoordinates, plotCoordinates)
+        if (distance < 3.1) {
+          plot.neighborUpdated(fromType, toType)
+        }
+      }
+    },
+    getDistance (positionA, positionB) {
+      const diffX = (positionA.x - positionB.x)
+      const diffY = (positionA.y - positionB.y)
+      return Math.sqrt((diffX * diffX) + (diffY * diffY))
     },
     plotIndexToInternalXY (index) {
       return {

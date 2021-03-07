@@ -7,10 +7,13 @@
         v-for="(tileData, index) in farmData.tileList"
         :key="index">
         <Tile
+          ref="tiles"
+          :tileIndex="index"
           :tileData="tileData"
           :currentAction="currentAction"
           :currentSeason="currentSeason"
-          :actionDetails="actionDetails"/>
+          :actionDetails="actionDetails"
+          @changeCrop="updateAdjacentTiles"/>
       </div>
     </div>
   </div>
@@ -23,10 +26,10 @@ import FarmData from '@/library/FarmData'
 import seasons from '@/library/seasons'
 import field from '@/library/field'
 
-const height = field.tileRows
 const width = field.tileCols
-const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
+const height = field.tileRows
 const tileWidthPx = field.plotColsPerTile * field.plotSizePx
+const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
 const farmData = new FarmData(width, height)
 
 export default {
@@ -35,6 +38,31 @@ export default {
   components: {Tile},
   data () {
     return {farmData}
+  },
+  methods: {
+    updateAdjacentTiles (cropChangeDetails) {
+      const {
+        coordinates: sourceCoordinates,
+        tile: sourceTileIndex,
+        tileData: sourceTileData,
+        from: fromType,
+        to: toType
+      } = cropChangeDetails;
+
+      for (let tile of this.$refs.tiles) {
+        if (
+          sourceTileIndex !== tile.tileIndex &&
+          Math.abs(tile.tileData.x - sourceTileData.x) <= 1 &&
+          Math.abs(tile.tileData.y - sourceTileData.y) <= 1
+        ) {
+          tile.updateCropNeighbors(
+            sourceCoordinates,
+            fromType,
+            toType
+          )
+        }
+      }
+    } 
   },
   computed: {
     fieldCanvasStyle () {
