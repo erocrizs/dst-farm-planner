@@ -14,7 +14,7 @@ class TileData {
     for (let row = 0; row < 3; row++) {
       this.plots[row] = []
       for (let col = 0; col < 3; col++) {
-        this.plots[row][col] = new PlotData(row, col)
+        this.plots[row][col] = new PlotData(col, row)
       }
     }
   }

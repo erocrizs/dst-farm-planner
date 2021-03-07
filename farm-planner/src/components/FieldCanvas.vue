@@ -27,7 +27,7 @@ const height = field.tileRows
 const width = field.tileCols
 const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
 const tileWidthPx = field.plotColsPerTile * field.plotSizePx
-const farmData = new FarmData(height, width)
+const farmData = new FarmData(width, height)
 
 export default {
   name: 'FieldCanvas',

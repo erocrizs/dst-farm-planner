@@ -7,7 +7,7 @@ export {FarmData as default}
 class FarmData {
   tiles = null
   
-  constructor (height, width) {
+  constructor (width, height) {
     this.width = width
     this.height = height
     this.tiles = new Array(height)
@@ -15,7 +15,7 @@ class FarmData {
     for (let row = 0; row < height; row++) {
       this.tiles[row] = new Array(width)
       for (let col = 0; col < width; col++) {
-        this.tiles[row][col] = new TileData(row, col)
+        this.tiles[row][col] = new TileData(col, row)
       }
     }
   }
