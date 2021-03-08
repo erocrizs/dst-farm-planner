@@ -63,7 +63,7 @@ export default {
     } = field
 
     return {
-      currentAction: null,
+      currentAction: 'import',
       currentActionDetail: null,
       currentSeason: defaultSeason,
       fieldState: null,

@@ -4,6 +4,7 @@
       <input id="farm-title-input" 
         type="text"
         v-model="farmName"
+        maxlength="32"
         placeholder="Name Your Farm Here!"/>
     </div>
     <div id="season-select">
@@ -36,6 +37,13 @@
         :farmName="farmName"
         />
     </div>
+    <div class="column-flex remaining-height"  v-if="this.currentAction === 'import'">
+      <Importer
+        :fieldState="fieldState"
+        :currentSeason="currentSeason"
+        :farmName="farmName"
+        />
+    </div>
   </div>
 </template>
 
@@ -43,6 +51,7 @@
 import SeasonSwitch from './StatusBar/SeasonSwitch'
 import CropSelector from './StatusBar/CropSelector'
 import Exporter from './StatusBar/Exporter'
+import Importer from './StatusBar/Importer'
 
 import seasons from '@/library/seasons'
 
@@ -51,7 +60,8 @@ export default {
   components: {
     SeasonSwitch,
     CropSelector,
-    Exporter
+    Exporter,
+    Importer
   },
   props: [
     'currentSeason',

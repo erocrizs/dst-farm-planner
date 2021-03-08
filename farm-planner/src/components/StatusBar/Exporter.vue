@@ -3,8 +3,8 @@
     <div class="section-header">
       Export
     </div>
-    <div id="link-share">
-      <label id="link-share-label">
+    <div id="file-export">
+      <label id="file-export-label">
         Export as JSON File
       </label>
       <button
@@ -69,7 +69,7 @@ export default {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'test.json'
+      a.download = `${this.farmName}.json`
       document.body.appendChild(a)
       a.click()
       setTimeout(
@@ -153,14 +153,14 @@ export default {
 </script>
 
 <style scoped>
-#link-share {
+#file-export {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 0.8em;
 }
 
-#link-share-label {
+#file-export-label {
   display: block;
   margin-bottom: 10px;
 }
