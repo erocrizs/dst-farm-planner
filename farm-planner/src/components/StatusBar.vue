@@ -23,21 +23,21 @@
     
     <hr class="section-divider"/>
 
-    <div class="column-flex remaining-height" :class="showOnAction('plant')">
+    <div class="status-bar-width column-flex remaining-height" :class="showOnAction('plant')">
       <CropSelector 
         :currentAction="currentAction"
         :actionDetails="actionDetails"
         @setActionDetails="setActionDetails"
         />
     </div>
-    <div class="column-flex remaining-height"  :class="showOnAction('export')">
+    <div class="status-bar-width column-flex remaining-height"  :class="showOnAction('export')">
       <Exporter
         :fieldState="fieldState"
         :currentSeason="currentSeason"
         :farmName="farmName"
         />
     </div>
-    <div class="column-flex remaining-height"  v-if="this.currentAction === 'import'">
+    <div class="status-bar-width column-flex remaining-height"  v-if="this.currentAction === 'import'">
       <Importer
         :fieldState="fieldState"
         :currentSeason="currentSeason"
@@ -99,6 +99,7 @@ export default {
 <style>
 #status-bar {
   height: 100%;
+  align-items: center;
 }
 
 .section-header {
@@ -168,6 +169,11 @@ export default {
 /* Handle on hover */
 .remaining-height::-webkit-scrollbar-thumb:hover {
   background: #ccc; 
+}
+
+.status-bar-width {
+  width: 100%;
+  max-width: 350px;
 }
 
 .column-flex {
