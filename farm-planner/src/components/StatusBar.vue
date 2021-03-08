@@ -17,16 +17,17 @@
     
     <hr class="section-divider"/>
 
-    <div v-if="actionSelected('plant')" class="column-flex remaining-height">
+    <div class="column-flex remaining-height" :class="showOnAction('plant')">
       <CropSelector 
         :currentAction="currentAction"
         :actionDetails="actionDetails"
         @setActionDetails="setActionDetails"
         />
     </div>
-    <div v-if="actionSelected('export')" class="column-flex remaining-height">
+    <div class="column-flex remaining-height"  :class="showOnAction('export')">
       <Exporter
         :fieldState="fieldState"
+        :currentSeason="currentSeason"
         />
     </div>
   </div>
@@ -69,6 +70,9 @@ export default {
     },
     setActionDetails (actionDetails) {
       this.$emit('setActionDetails', actionDetails)
+    },
+    showOnAction (action) {
+      return {'hidden-section': this.currentAction !== action}
     }
   }
 }
@@ -140,4 +144,7 @@ export default {
   justify-content: flex-start;
 }
 
+.hidden-section {
+  display: none !important;
+}
 </style>

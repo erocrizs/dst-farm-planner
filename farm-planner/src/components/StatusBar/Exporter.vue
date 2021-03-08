@@ -23,7 +23,13 @@
 
     <div id="local-save" class="column-flex remaining-height">
       <div id="save-slot-list" class="column-flex remaining-height">
-        <SaveSlot :selected="false"/>
+        <SaveSlot
+          v-for="summary in saveSummaries"
+          :key="summary.index"
+          :selected="selectedSlot === summary.index"
+          :summary="summary"
+          @click="selectSlot(summary.index)"
+          />
         <div id="new-save-slot" 
           :class="{'selected-slot': selectedSlot === 'new'}"
           @click="selectSlot('new')">
@@ -32,7 +38,8 @@
       </div>
       <button
         :disabled="!selectedSlot"
-        type="button">
+        type="button"
+        @click="saveState">
         Save
       </button>
     </div>
@@ -41,14 +48,18 @@
 
 <script>
 import SaveSlot from './Exporter/SaveSlot'
+import {saveJSON, fetchJSON, keys} from '@/library/storage'
 
 export default {
   name: 'Exporter',
-  props: ['fieldState'],
+  props: ['fieldState', 'currentSeason'],
   components: {SaveSlot},
   data () {
+    const {summaries, lastIndex} = fetchJSON(keys.saveSummary, {})
     return {
-      selectedSlot: null
+      selectedSlot: null,
+      saveSummaries: (summaries || []).filter(e => e),
+      lastIndex: lastIndex || 0
     }
   },
   methods: {
@@ -76,6 +87,62 @@ export default {
       }
 
       this.selectedSlot = slotIndex
+    },
+    storeSummary (summary) {
+      const {index, season} = summary
+      const {summaries} = fetchJSON(keys.saveSummary, {})
+      const filteredSummaries = (summaries || []).filter(e => e)
+
+      let saved = false
+      for (let listIndex in this.saveSummaries) {
+        if (index === this.saveSummaries[listIndex].index) {
+          this.saveSummaries[listIndex] = {index, season}
+          saved = true
+        }
+      }
+
+      if (!saved) {
+        filteredSummaries.push({index, season})
+      }
+
+      saveJSON(
+        keys.saveSummary,
+        {
+          summaries: filteredSummaries,
+          lastIndex: this.lastIndex
+        }
+      )
+
+      this.saveSummaries = filteredSummaries
+    },
+    saveState () {
+      let summary;
+      if (this.selectedSlot === 'new') {
+        this.lastIndex++
+        this.selectedSlot = this.lastIndex
+        summary = {
+          season: this.currentSeason,
+          index: this.selectedSlot
+        }
+      }
+      else {
+        summary = {
+          season: this.currentSeason,
+          index: this.selectedSlot
+        }
+      }
+
+      console.log(this.saveSummaries)
+      
+      const saveData = {
+        index: this.selectedSlot,
+        data: this.fieldState
+      }
+
+      const saves = fetchJSON(keys.saveData, {})
+      saves[this.selectedSlot] = saveData
+      saveJSON(keys.saveData, saves)
+      this.storeSummary(summary)
     }
   }
 }
