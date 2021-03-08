@@ -6,6 +6,7 @@ export default {
   plotColsPerTile: 3,
   tileRows: 5,
   tileCols: 5,
+  defaultSeason: 'autumn',
   cropBasis: {
     plant: 'asparagus',
     giant: 'garlic'

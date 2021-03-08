@@ -3,7 +3,15 @@
     <div id="navigation-bar-container">
       <NavigationBar/>
     </div>
-    <div id="field-canvas-container">
+    <div id="startup-container" v-if="!fieldState">
+      <Startup 
+        :width="width"
+        :height="height"
+        :season="currentSeason"
+        @finishSetup="setupFarm"
+        />
+    </div>
+    <div id="field-canvas-container" v-if="fieldState">
       <FieldCanvas
         ref="field"
         :width="width"
@@ -12,7 +20,7 @@
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"/>
     </div>
-    <div id="tool-bar-container">
+    <div id="tool-bar-container" v-if="fieldState">
       <ToolBar 
         @selectAction="setAction"
         :currentAction="currentAction"/>
@@ -33,6 +41,7 @@ import NavigationBar from './components/NavigationBar'
 import FieldCanvas from './components/FieldCanvas'
 import StatusBar from './components/StatusBar'
 import ToolBar from './components/ToolBar'
+import Startup from './components/Startup'
 
 import field from '@/library/field'
 
@@ -42,25 +51,22 @@ export default {
     NavigationBar,
     FieldCanvas,
     StatusBar,
-    ToolBar
+    ToolBar,
+    Startup
   },
   data () {
-    const width = field.tileCols
-    const height = field.tileRows
-    const defaultSeason = 'autumn'
-    const defaultFieldState = {
-      width,
-      height,
-      season:defaultSeason,
-      tiles: {}
-    }
+    const {
+      tileCols: width,
+      tileRows: height,
+      defaultSeason
+    } = field
 
     return {
       currentAction: null,
       currentActionDetail: null,
       currentSeason: defaultSeason,
+      fieldState: null,
       actionDetails: {},
-      fieldState: defaultFieldState,
       width,
       height
     }
@@ -76,12 +82,21 @@ export default {
     },
     setSeason (season) {
       this.currentSeason = season
-      this.$refs.field.farmData.season = season
-      this.fieldState = this.$refs.field.toJSON()
+
+      if (this.fieldState) {
+        this.$refs.field.farmData.season = season
+        this.fieldState = this.$refs.field.toJSON()
+      }       
     },
     setActionDetails (actionDetails) {
       this.actionDetails[this.currentAction] = actionDetails
       this.currentActionDetail = actionDetails
+    },
+    setupFarm (fieldState) {
+      this.fieldState = fieldState
+      this.currentSeason = fieldState.season
+      this.width = fieldState.width
+      this.height = fieldState.height
     }
   }
 }
@@ -156,6 +171,15 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
+  }
+  
+  #startup-container {
+    background-color: #9b7b5d;
+    color: #342517;
+    min-height: 500px;
+    max-height: calc(100vh - 170px);
+    flex-grow: 1;
   }
 
   @media screen and (min-width: 780px) {
@@ -183,6 +207,11 @@ export default {
       z-index: 1;
       grid-area: 3/1/span 1/span 1;
       background-color: transparent;
+    }
+
+    #startup-container {
+      grid-area: 2/1/span 2/ span 1;
+      max-height: none;
     }
   }
 </style>

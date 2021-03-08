@@ -1,8 +1,8 @@
 <template>
   <div id="navigation-bar">
-    <div id="navigation-bar-header">
+    <h1 id="navigation-bar-header">
       Don't Starve Together Farm Planner
-    </div>
+    </h1>
     <div class="navigation-bar-divider"></div>
     <div id="navigation-bar-github">
       <a href="https://www.klei.com/games/dont-starve-together">
@@ -35,6 +35,7 @@ export default {
 }
 
 #navigation-bar-header {
+  display: block;
   letter-spacing: 2px;
   color: #ddd;
   text-shadow:
@@ -42,6 +43,7 @@ export default {
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
+  font-size: 1em;
 }
 
 #navigation-bar-github img {
