@@ -27,8 +27,11 @@
           v-for="summary in saveSummaries"
           :key="summary.index"
           :selected="selectedSlot === summary.index"
-          :summary="summary"
+          :name="summary.name"
+          :season="summary.season"
+          :deletable="true"
           @click="selectSlot(summary.index)"
+          @delete="deleteSave(summary)"
           />
         <div id="new-save-slot" 
           :class="{'selected-slot': selectedSlot === 'new'}"
@@ -98,12 +101,6 @@ export default {
       const filteredSummaries = (summaries || []).filter(e => e)
 
       let saved = false
-      for (let listIndex in this.saveSummaries) {
-        if (this.selectedSlot === this.saveSummaries[listIndex].index) {
-          this.saveSummaries[listIndex] = summary
-        }
-      }
-
       for (let listIndex in filteredSummaries) {
         if (this.selectedSlot === filteredSummaries[listIndex].index) {
           filteredSummaries[listIndex] = summary
@@ -114,13 +111,6 @@ export default {
       if (!saved) {
         filteredSummaries.push(summary)
       }
-
-      console.log({
-        index: this.selectedSlot,
-        season: this.currentSeason,
-        summaries: filteredSummaries,
-        lastIndex: this.lastIndex
-      })
 
       saveJSON(
         keys.saveSummary,
@@ -147,6 +137,40 @@ export default {
       saves[this.selectedSlot] = saveData
       saveJSON(keys.saveData, saves)
       this.storeSummary()
+    },
+    deleteSave (summary) {
+      const saveName = summary.name
+      const saveIndex = summary.index
+      if (this.selectedSlot === saveIndex) {
+        this.selectedSlot = null
+      }
+
+      const continueDelete = confirm(
+        `Are you sure you want to delete your save "${saveName}"?`
+      )
+
+      if (!continueDelete) {
+        return
+      }
+
+      for (let listIndex in this.saveSummaries) {
+        if (saveIndex === this.saveSummaries[listIndex].index) {
+          this.saveSummaries.splice(listIndex, 1)
+          break
+        }
+      }
+
+      saveJSON(
+        keys.saveSummary,
+        {
+          summaries: this.saveSummaries,
+          lastIndex: this.lastIndex
+        }
+      )
+
+      const saves = fetchJSON(keys.saveData, {})
+      delete saves[saveIndex]
+      saveJSON(keys.saveData, saves)
     }
   }
 }

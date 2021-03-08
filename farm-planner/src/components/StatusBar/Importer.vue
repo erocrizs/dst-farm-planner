@@ -16,11 +16,6 @@
         type="file"
         accept="application/JSON"
         @change="uploadFieldState"/>
-      <!--button
-        type="button"
-        @click="uploadFieldState">
-        Upload
-      </button-->
     </div>
 
     <hr class="section-divider"/>
@@ -35,7 +30,9 @@
           v-for="summary in saveSummaries"
           :key="summary.index"
           :selected="selectedSlot === summary.index"
-          :summary="summary"
+          :name="summary.name"
+          :season="summary.season"
+          :deletable="false"
           @click="selectSlot(summary.index)"
           />
       </div>
@@ -67,7 +64,6 @@ export default {
   methods: {
     uploadFieldState (uploadEvent) {
       const [file] = uploadEvent.target.files
-      console.log(file)
       const reader = new FileReader()
       reader.onload = () => {
         // TODO
