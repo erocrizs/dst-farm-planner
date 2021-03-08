@@ -41,7 +41,7 @@ class TileData {
     for (let row = 0; row < 3; row++) {
       for (let col = 0; col < 3; col++) {
         if (this.plots[row][col].crop) {
-          json[`${row},${col}`] = this.plots[row][col].crop
+          json[`${col},${row}`] = this.plots[row][col].crop
         }
       }
     }

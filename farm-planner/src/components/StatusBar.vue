@@ -17,11 +17,16 @@
     
     <hr class="section-divider"/>
 
-    <div v-if="this.currentAction === 'plant'" class="column-flex remaining-height">
+    <div v-if="actionSelected('plant')" class="column-flex remaining-height">
       <CropSelector 
         :currentAction="currentAction"
         :actionDetails="actionDetails"
         @setActionDetails="setActionDetails"
+        />
+    </div>
+    <div v-if="actionSelected('export')" class="column-flex remaining-height">
+      <Exporter
+        :fieldState="fieldState"
         />
     </div>
   </div>
@@ -30,6 +35,7 @@
 <script>
 import SeasonSwitch from './StatusBar/SeasonSwitch'
 import CropSelector from './StatusBar/CropSelector'
+import Exporter from './StatusBar/Exporter'
 
 import seasons from '@/library/seasons'
 
@@ -37,12 +43,14 @@ export default {
   name: 'StatusBar',
   components: {
     SeasonSwitch,
-    CropSelector
+    CropSelector,
+    Exporter
   },
   props: [
     'currentSeason',
     'currentAction',
-    'actionDetails'
+    'actionDetails',
+    'fieldState'
   ],
   data () {
     return {

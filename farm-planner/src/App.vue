@@ -31,7 +31,8 @@
         @setActionDetails="setActionDetails"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
-        :actionDetails="currentActionDetail"/>
+        :actionDetails="currentActionDetail"
+        :fieldState="fieldState"/>
     </div>
   </div>
 </template>

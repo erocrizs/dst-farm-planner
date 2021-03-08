@@ -35,7 +35,7 @@ class FarmData {
     for (let row = 0; row < this.height; row++) {
       for (let col = 0; col < this.width; col++) {
         if (this.tiles[row][col].plotted) {
-          tiles[`${row},${col}`] = this.tiles[row][col].toJSON()
+          tiles[`${col},${row}`] = this.tiles[row][col].toJSON()
         }
       }
     }

@@ -1,8 +1,8 @@
 <template>
   <div id="crop-selector" class="column-flex remaining-height">
-      <div class="section-header">
-        Plant Crops
-      </div>
+    <div class="section-header">
+      Plant Crops
+    </div>
     <div id="crop-filters">
       <div id="crop-nutrient-filters">
         <NutrientFilter

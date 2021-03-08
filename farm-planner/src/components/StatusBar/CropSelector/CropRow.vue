@@ -63,6 +63,7 @@ export default {
   margin-bottom: 10px;
   border-left: 5px solid #342517;
   padding: 5px;
+  user-select: none;
 }
 
 .crop-row:hover {
