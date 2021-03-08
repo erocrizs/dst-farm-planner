@@ -52,7 +52,7 @@ import {saveJSON, fetchJSON, keys} from '@/library/storage'
 
 export default {
   name: 'Exporter',
-  props: ['fieldState', 'currentSeason'],
+  props: ['fieldState', 'currentSeason', 'farmName'],
   components: {SaveSlot},
   data () {
     const {summaries, lastIndex} = fetchJSON(keys.saveSummary, {})
@@ -88,22 +88,39 @@ export default {
 
       this.selectedSlot = slotIndex
     },
-    storeSummary (summary) {
-      const {index, season} = summary
+    storeSummary () {
+      const summary = {
+          name: this.farmName,
+          season: this.currentSeason,
+          index: this.selectedSlot
+      }
       const {summaries} = fetchJSON(keys.saveSummary, {})
       const filteredSummaries = (summaries || []).filter(e => e)
 
       let saved = false
       for (let listIndex in this.saveSummaries) {
-        if (index === this.saveSummaries[listIndex].index) {
-          this.saveSummaries[listIndex] = {index, season}
+        if (this.selectedSlot === this.saveSummaries[listIndex].index) {
+          this.saveSummaries[listIndex] = summary
+        }
+      }
+
+      for (let listIndex in filteredSummaries) {
+        if (this.selectedSlot === filteredSummaries[listIndex].index) {
+          filteredSummaries[listIndex] = summary
           saved = true
         }
       }
 
       if (!saved) {
-        filteredSummaries.push({index, season})
+        filteredSummaries.push(summary)
       }
+
+      console.log({
+        index: this.selectedSlot,
+        season: this.currentSeason,
+        summaries: filteredSummaries,
+        lastIndex: this.lastIndex
+      })
 
       saveJSON(
         keys.saveSummary,
@@ -116,23 +133,10 @@ export default {
       this.saveSummaries = filteredSummaries
     },
     saveState () {
-      let summary;
       if (this.selectedSlot === 'new') {
         this.lastIndex++
         this.selectedSlot = this.lastIndex
-        summary = {
-          season: this.currentSeason,
-          index: this.selectedSlot
-        }
       }
-      else {
-        summary = {
-          season: this.currentSeason,
-          index: this.selectedSlot
-        }
-      }
-
-      console.log(this.saveSummaries)
       
       const saveData = {
         index: this.selectedSlot,
@@ -142,7 +146,7 @@ export default {
       const saves = fetchJSON(keys.saveData, {})
       saves[this.selectedSlot] = saveData
       saveJSON(keys.saveData, saves)
-      this.storeSummary(summary)
+      this.storeSummary()
     }
   }
 }

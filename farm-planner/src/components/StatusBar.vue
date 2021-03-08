@@ -1,6 +1,11 @@
 <template>
   <div id="status-bar" class="column-flex">
-    <div class="section-header padding">Farm Status</div>
+    <div id="farm-title" class="section-header padding">
+      <input id="farm-title-input" 
+        type="text"
+        v-model="farmName"
+        placeholder="Name Your Farm Here!"/>
+    </div>
     <div id="season-select">
       <div id="season-selector-label">
         Season
@@ -28,6 +33,7 @@
       <Exporter
         :fieldState="fieldState"
         :currentSeason="currentSeason"
+        :farmName="farmName"
         />
     </div>
   </div>
@@ -55,7 +61,8 @@ export default {
   ],
   data () {
     return {
-      seasons
+      seasons,
+      farmName: ''
     }
   },
   methods: {
@@ -87,6 +94,21 @@ export default {
 .section-header {
   font-family: belisa_plumilla;
   text-align: center;
+}
+
+#farm-title input, #farm-title input::placeholder {
+  font-family: belisa_plumilla;
+  font-size: 1em;
+  font-weight: bolder;
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  background-color: transparent;
+  color: inherit;
+}
+
+#farm-title input:focus::placeholder {
+  color: transparent;
 }
 
 .section-divider {
