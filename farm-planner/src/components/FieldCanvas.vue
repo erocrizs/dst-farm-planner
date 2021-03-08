@@ -26,18 +26,17 @@ import FarmData from '@/library/FarmData'
 import seasons from '@/library/seasons'
 import field from '@/library/field'
 
-const width = field.tileCols
-const height = field.tileRows
 const tileWidthPx = field.plotColsPerTile * field.plotSizePx
 const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
-const farmData = new FarmData(width, height)
 
 export default {
   name: 'FieldCanvas',
-  props: ['currentAction', 'currentSeason', 'actionDetails'],
+  props: ['width', 'height', 'currentAction', 'currentSeason', 'actionDetails'],
   components: {Tile},
   data () {
-    return {farmData}
+    return {
+      farmData: new FarmData(this.width, this.height, this.currentSeason)
+    }
   },
   methods: {
     updateAdjacentTiles (cropChangeDetails) {
@@ -62,20 +61,23 @@ export default {
           )
         }
       }
-    } 
+    },
+    toJSON () {
+      return this.farmData.toJSON()
+    }
   },
   computed: {
     fieldCanvasStyle () {
       const {turf} = seasons[this.currentSeason]
       return {
         backgroundImage: `url(../static/${turf})`,
-        height: `${(tileHeightPx * height) + 80}px`,
-        width: `${(tileWidthPx * width) + 80}px`
+        height: `${(tileHeightPx * this.height) + 80}px`,
+        width: `${(tileWidthPx * this.width) + 80}px`
       }
     },
     tileGridStyle () {
-      const gridTemplateRows = `${tileHeightPx}px `.repeat(height).trim()
-      const gridTemplateColumns = `${tileWidthPx}px `.repeat(width).trim()
+      const gridTemplateRows = `${tileHeightPx}px `.repeat(this.height).trim()
+      const gridTemplateColumns = `${tileWidthPx}px `.repeat(this.width).trim()
       return {
         gridTemplateRows,
         gridTemplateColumns

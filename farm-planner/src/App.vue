@@ -5,6 +5,9 @@
     </div>
     <div id="field-canvas-container">
       <FieldCanvas
+        ref="field"
+        :width="width"
+        :height="height"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"/>
@@ -31,6 +34,8 @@ import FieldCanvas from './components/FieldCanvas'
 import StatusBar from './components/StatusBar'
 import ToolBar from './components/ToolBar'
 
+import field from '@/library/field'
+
 export default {
   name: 'App',
   components: {
@@ -40,20 +45,39 @@ export default {
     ToolBar
   },
   data () {
+    const width = field.tileCols
+    const height = field.tileRows
+    const defaultSeason = 'autumn'
+    const defaultFieldState = {
+      width,
+      height,
+      season:defaultSeason,
+      tiles: {}
+    }
+
     return {
       currentAction: null,
       currentActionDetail: null,
-      currentSeason: 'autumn',
-      actionDetails: {}
+      currentSeason: defaultSeason,
+      actionDetails: {},
+      fieldState: defaultFieldState,
+      width,
+      height
     }
   },
   methods: {
     setAction (action) {
       this.currentAction = action
       this.currentActionDetail = this.actionDetails[this.currentAction] || null
+
+      if (action === 'export') {
+        this.fieldState = this.$refs.field.toJSON()
+      }
     },
     setSeason (season) {
       this.currentSeason = season
+      this.$refs.field.farmData.season = season
+      this.fieldState = this.$refs.field.toJSON()
     },
     setActionDetails (actionDetails) {
       this.actionDetails[this.currentAction] = actionDetails

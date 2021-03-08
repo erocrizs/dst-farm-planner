@@ -34,4 +34,18 @@ class TileData {
   get plotList () {
     return this.plots.reduce((acc, plotRow) => acc.concat(plotRow))
   }
+
+  toJSON () {
+    const json = {}
+    
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        if (this.plots[row][col].crop) {
+          json[`${row},${col}`] = this.plots[row][col].crop
+        }
+      }
+    }
+
+    return json
+  }
 }
