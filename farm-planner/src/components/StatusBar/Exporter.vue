@@ -29,6 +29,7 @@
           :selected="selectedSlot === summary.index"
           :name="summary.name"
           :season="summary.season"
+          :time="summary.time"
           :deletable="true"
           @click="selectSlot(summary.index)"
           @delete="deleteSave(summary)"
@@ -95,7 +96,8 @@ export default {
       const summary = {
           name: this.farmName,
           season: this.currentSeason,
-          index: this.selectedSlot
+          index: this.selectedSlot,
+          time: new Date().getTime()
       }
       const {summaries} = fetchJSON(keys.saveSummary, {})
       const filteredSummaries = (summaries || []).filter(e => e)

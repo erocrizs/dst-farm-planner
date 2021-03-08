@@ -6,8 +6,14 @@
       <img class="save-icon brown-icon" :src="imgSrc" />
       <div class="save-name">{{name || 'Unnamed Save'}}</div>
     </div>
-    <div v-if="deletable" style="text-align: right;">
-      <div class="save-delete" @click.stop="deleteSave">Delete</div>
+    <div class="save-footer">
+      <div class="save-time">{{timeString}}</div>
+      <div 
+        v-if="deletable"
+        class="save-delete"
+        @click.stop="deleteSave">
+        Delete
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +23,7 @@ import seasons from '@/library/seasons'
 
 export default {
   name: 'SaveSlot',
-  props: ['selected', 'name', 'season', 'deletable'],
+  props: ['selected', 'name', 'season', 'time', 'deletable'],
   data () {
     return {}
   },
@@ -32,6 +38,9 @@ export default {
   computed: {
     imgSrc () {
       return './static/' + seasons[this.season].symbol
+    },
+    timeString () {
+      return new Date(this.time).toLocaleString()
     }
   }
 }
@@ -49,6 +58,7 @@ export default {
   height: 1.2em;
   width: 1.2em;
   margin-right: 10px;
+  margin-bottom: 5px;
 }
 
 .save-details .save-name {
@@ -57,13 +67,23 @@ export default {
   min-height: 100%;
 }
 
-.save-delete {
-  display: inline;
+.save-footer {
   font-size: 0.5em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.save-footer .save-time {
+  flex-grow: 1;
+}
+
+.save-footer .save-delete {
   color: rgb(83, 13, 13);
 }
 
-.save-delete:hover {
+.save-footer .save-delete:hover {
   color: rgb(136, 22, 22);
 }
 </style>

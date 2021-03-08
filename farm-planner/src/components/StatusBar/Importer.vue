@@ -32,6 +32,7 @@
           :selected="selectedSlot === summary.index"
           :name="summary.name"
           :season="summary.season"
+          :time="summary.time"
           :deletable="false"
           @click="selectSlot(summary.index)"
           />
