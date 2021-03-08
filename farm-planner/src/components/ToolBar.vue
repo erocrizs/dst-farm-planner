@@ -49,5 +49,6 @@ export default {
   .tool-frame {
     height: auto;
     background-color: #1b180e;
+    pointer-events: auto;
   }
 </style>
