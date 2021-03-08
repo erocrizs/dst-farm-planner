@@ -94,6 +94,8 @@ export default {
       this.currentActionDetail = actionDetails
     },
     setupFarm (fieldState) {
+      this.currentAction = null
+      this.currentActionDetail = null
       this.fieldState = fieldState
       this.currentSeason = fieldState.season
       this.width = fieldState.width
@@ -180,7 +182,6 @@ export default {
     color: #342517;
     min-height: 500px;
     max-height: calc(100vh - 170px);
-    flex-grow: 1;
   }
 
   @media screen and (min-width: 780px) {
