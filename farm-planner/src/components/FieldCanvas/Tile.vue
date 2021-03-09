@@ -48,10 +48,7 @@ export default {
   data () {
     return {
       plotted: this.tileData.plotted,
-      plotCropList: [],
-      growthFormula: 0,
-      compost: 0,
-      manure: 0
+      plotCropList: []
     }
   },
   computed: {
@@ -68,6 +65,15 @@ export default {
       return {
         visibility: this.plotted ? 'visible' : 'hidden'
       }
+    },
+    growthFormula () {
+      return this.tileData.growthFormula
+    },
+    compost () {
+      return this.tileData.compost
+    },
+    manure () {
+      return this.tileData.manure
     }
   },
   methods: {
@@ -90,9 +96,6 @@ export default {
       this.tileData.plow()
       this.plotted = true
       this.plotCropList = []
-      this.growthFormula = 0
-      this.compost = 0
-      this.manure = 0
     },
     loadTileState (tileState) {
       for (let plot of this.$refs.plots) {
@@ -112,18 +115,18 @@ export default {
     cropDestroyed (index) {
       const cropType = this.plotCropList[index]
       const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
-      this.growthFormula -= crops[cropType].nutrients.growthFormula * growthSpeed
-      this.compost -= crops[cropType].nutrients.compost * growthSpeed
-      this.manure -= crops[cropType].nutrients.manure * growthSpeed
+      this.tileData.growthFormula -= crops[cropType].nutrients.growthFormula * growthSpeed
+      this.tileData.compost -= crops[cropType].nutrients.compost * growthSpeed
+      this.tileData.manure -= crops[cropType].nutrients.manure * growthSpeed
 
       this.plotCropList[index] = null
       this.cropUpdated(index, cropType, null)
     },
     addCropNutrients (cropType) {
       const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
-      this.growthFormula += crops[cropType].nutrients.growthFormula * growthSpeed
-      this.compost += crops[cropType].nutrients.compost * growthSpeed
-      this.manure += crops[cropType].nutrients.manure * growthSpeed
+      this.tileData.growthFormula += crops[cropType].nutrients.growthFormula * growthSpeed
+      this.tileData.compost += crops[cropType].nutrients.compost * growthSpeed
+      this.tileData.manure += crops[cropType].nutrients.manure * growthSpeed
     },
     cropUpdated (index, fromType, toType) {
       for (let plot of this.$refs.plots) {
@@ -182,16 +185,16 @@ export default {
   },
   watch: {
     currentSeason () {
-      this.growthFormula = 0
-      this.compost = 0
-      this.manure = 0
+      this.tileData.growthFormula = 0
+      this.tileData.compost = 0
+      this.tileData.manure = 0
 
       for (let cropType of this.plotCropList) {
         if (cropType) {
           this.addCropNutrients(cropType)
         }
       }
-    }
+    },
   }
 }
 </script>

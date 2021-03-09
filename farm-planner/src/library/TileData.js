@@ -8,6 +8,9 @@ export {TileData as default}
 class TileData {
   plots = []
   plotted = false
+  growthFormula = 0
+  compost = 0
+  manure = 0
   
   constructor (x, y) {
     this.x = x
@@ -26,6 +29,9 @@ class TileData {
   
   plow () {
     this.plotted = true
+    this.growthFormula = 0
+    this.compost = 0
+    this.manure = 0
   }
   
   destroy () {
