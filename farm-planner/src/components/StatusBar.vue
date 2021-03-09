@@ -27,7 +27,8 @@
       <Inspector
         :farmDetail="farmDetail"
         :tileDetail="tileDetail"
-        :plotDetail="plotDetail"/>
+        :plotDetail="plotDetail"
+        :season="currentSeason"/>
     </div>
     <div class="status-bar-width column-flex remaining-height" :class="showOnAction('plant')">
       <CropSelector 

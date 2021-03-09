@@ -4,17 +4,27 @@
       Inspect Crops
     </div>
     <div id="inspect-farm">
-      <div class = "subsection-header">
-        Farm Status: {{JSON.stringify(farmDetail)}}
+      <div class="subsection-header">
+        Farm Stats
       </div>
+      <div class="detail-label">
+        Total Seeds Needed:
+      </div>
+      <SeedList :seeds="farmDetail.seeds"/>
+      <div class="detail-label">
+        Total Farm Yield: 
+      </div>
+      <YieldList :yields="farmDetail.yield"/>
     </div>
+    <hr class="section-divider" v-if="tileDetail"/>
     <div id="inspect-tile" v-if="tileDetail">
-      <div class = "subsection-header">
-        Tile Status: {{JSON.stringify(tileDetail)}}
+      <div class="subsection-header">
+        Tile Stats: {{JSON.stringify(tileDetail)}}
       </div>
     </div>
+    <hr class="section-divider" v-if="plotDetail"/>
     <div id="inspect-plot" v-if="plotDetail">
-      <div class = "subsection-header">
+      <div class="subsection-header">
         Plot Status: {{JSON.stringify(plotDetail)}}
       </div>
     </div>
@@ -30,7 +40,8 @@ export default {
   props: [
     'farmDetail',
     'tileDetail',
-    'plotDetail'
+    'plotDetail',
+    'season'
   ],
   components: {
     YieldList,
@@ -43,4 +54,12 @@ export default {
 </script>
 
 <style scoped>
+.subsection-header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  font-size: 0.8em;
+}
 </style>

@@ -1,12 +1,13 @@
 <template>
   <div class="yield-list">
-    Yield List
+    Yield List: {{JSON.stringify(yields)}}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SeedList',
+  name: 'YieldList',
+  props: ['yields'],
   data () {
     return {}
   }
@@ -14,4 +15,7 @@ export default {
 </script>
 
 <style scoped>
+.yield-list {
+  font-size: 0.8em;
+}
 </style>
