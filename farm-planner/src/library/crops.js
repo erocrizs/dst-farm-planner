@@ -12,7 +12,7 @@ export default {
     },
     dimensions: {
       plant: {x: 264, y: 304, multiplier: 1.2},
-      giant: {x: 350, y: 419, multiplier: 0.85}
+      giant: {x: 350, y: 419, multiplier: 0.9}
     },
     nutrients: {
       growthFormula: -4,
@@ -222,7 +222,7 @@ export default {
     },
     dimensions: {
       plant: {x: 279, y: 412, multiplier: 1.2},
-      giant: {x: 264, y: 453, multiplier: 0.8}
+      giant: {x: 264, y: 453, multiplier: 0.9}
     },
     nutrients: {
       growthFormula: 4,
