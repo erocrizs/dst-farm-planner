@@ -3,6 +3,14 @@
 export {PlotData as default}
 
 class PlotData {
+  growthFormula = null
+  compost = null
+  manure = null
+
+  family = null
+
+  season = null
+
   constructor (x, y) {
     this.x = x
     this.y = y

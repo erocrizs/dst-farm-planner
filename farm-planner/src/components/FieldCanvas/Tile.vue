@@ -81,7 +81,7 @@ export default {
 
         for (let plot of this.$refs.plots) {
           if (plot.crop) {
-            plot.destroyCrop()
+            plot.destroy()
           }          
         }
       }

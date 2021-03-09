@@ -33,6 +33,11 @@ export default {
       family[crop] = 0
     }
 
+    this.plotData.growthFormula = this.growthFormula
+    this.plotData.compost = this.compost
+    this.plotData.manure = this.manure
+    this.plotData.season = this.currentSeason
+
     return {
       border: {
         borderTopWidth: this.plotData.x > 0 ? '1px' : '0px',
@@ -61,12 +66,18 @@ export default {
     plantCrop (crop) {
       this.plotData.plant(crop)
       this.crop = crop
+
+      this.plotData.family = this.family[this.crop]
+
       this.$emit('plantCrop', this.crop, this.plotIndex)
     },
     destroy () {
       if (this.crop !== null) {
         this.plotData.destroy()
         this.crop = null
+
+        this.plotData.family = null
+
         this.$emit('destroyCrop', this.plotIndex)
       }
     },
@@ -88,6 +99,9 @@ export default {
       }
       if (toType) {
         this.family[toType]++;
+      }
+      if (this.crop) {
+        this.plotData.family = this.family[this.crop]
       }
     }
   },
@@ -119,6 +133,20 @@ export default {
       return this.growthFormula >= 0
         && this.compost >= 0
         && this.manure >= 0
+    }
+  },
+  watch: {
+    growthFormula () {
+      this.plotData.growthFormula = this.growthFormula
+    },
+    compost () {
+      this.plotData.compost = this.compost
+    },
+    manure () {
+      this.plotData.manure = this.manure
+    },
+    currentSeason () {
+      this.plotData.season = this.currentSeason
     }
   }
 }
