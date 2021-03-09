@@ -51,6 +51,8 @@ export default {
           return this.plant()
         case 'destroy':
           return this.destroy()
+        case 'inspect':
+          return this.inspect()
       }
     },
     plant () {
@@ -74,6 +76,21 @@ export default {
         this.plotData.family = null
 
         this.$emit('destroyCrop', this.plotIndex)
+      }
+    },
+    inspect () {
+      if (this.crop !== null) {
+        this.$emit(
+          'inspect',
+          this.plotData.inspectReport(
+            {
+              growthFormula: this.growthFormula,
+              compost: this.compost,
+              manure: this.manure
+            },
+            this.currentSeason
+          )
+        )
       }
     },
     customSize (crop) {
@@ -128,6 +145,13 @@ export default {
       return this.growthFormula >= 0
         && this.compost >= 0
         && this.manure >= 0
+    }
+  },
+  watch: {
+    currentSeason () {
+      if (this.currentAction === 'inspect') {
+        this.inspect()
+      }
     }
   }
 }

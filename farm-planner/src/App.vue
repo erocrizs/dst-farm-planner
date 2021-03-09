@@ -6,8 +6,7 @@
     <div id="startup-container" v-if="!fieldState">
       <Startup
         :season="currentSeason"
-        @finishSetup="setupFarm"
-        />
+        @finishSetup="setupFarm"/>
     </div>
     <div id="field-canvas-container" v-if="fieldState">
       <FieldCanvas
@@ -15,7 +14,8 @@
         :currentAction="currentAction"
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"
-        :fieldState="fieldState"/>
+        :fieldState="fieldState"
+        @inspect="inspect"/>
     </div>
     <div id="tool-bar-container" v-if="fieldState">
       <ToolBar 
@@ -30,7 +30,10 @@
         :currentAction="currentAction"
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"
-        :fieldState="fieldState"/>
+        :fieldState="fieldState"
+        :farmDetail="farmDetail"
+        :tileDetail="tileDetail"
+        :plotDetail="plotDetail"/>
     </div>
   </div>
 </template>
@@ -54,16 +57,15 @@ export default {
     Startup
   },
   data () {
-    const {
-      defaultSeason
-    } = field
-
     return {
       currentAction: 'import',
       currentActionDetail: null,
       currentSeason: field.defaultSeason,
       fieldState: null,
-      actionDetails: {}
+      actionDetails: {},
+      farmDetail: null,
+      tileDetail: null,
+      plotDetail: null
     }
   },
   mounted () {
@@ -83,6 +85,9 @@ export default {
       if (action === 'export') {
         this.fieldState = this.$refs.field.toJSON()
       }
+      else if (action === 'inspect') {
+        this.farmDetail = this.$refs.field.farmData.inspectReport()
+      }
     },
     setSeason (season) {
       this.currentSeason = season
@@ -90,7 +95,11 @@ export default {
       if (this.fieldState) {
         this.$refs.field.farmData.season = season
         this.fieldState = this.$refs.field.toJSON()
-      }       
+      }
+
+      if (this.currentAction === 'inspect') {
+        this.farmDetail = this.$refs.field.farmData.inspectReport()
+      }
     },
     setActionDetails (actionDetails) {
       this.actionDetails[this.currentAction] = actionDetails
@@ -103,6 +112,10 @@ export default {
       this.currentSeason = fieldState.season
       this.width = fieldState.width
       this.height = fieldState.height
+    },
+    inspect ({tileDetail, plotDetail}) {
+      this.tileDetail = tileDetail
+      this.plotDetail = plotDetail
     }
   }
 }

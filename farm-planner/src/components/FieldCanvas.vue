@@ -13,7 +13,8 @@
           :currentAction="currentAction"
           :currentSeason="currentSeason"
           :actionDetails="actionDetails"
-          @changeCrop="updateAdjacentTiles"/>
+          @changeCrop="updateAdjacentTiles"
+          @inspect="inspect"/>
       </div>
     </div>
   </div>
@@ -91,6 +92,15 @@ export default {
           tile.loadTileState(this.fieldState.tiles[stringKey])
         }
       }
+    },
+    inspect ({plotDetail, tileDetail}) {
+      this.$emit(
+        'inspect',
+        {
+          plotDetail,
+          tileDetail
+        }
+      )
     }
   },
   computed: {

@@ -16,7 +16,8 @@
           :compost="compost"
           :manure="manure"
           @plantCrop="cropPlanted"
-          @destroyCrop="cropDestroyed"/>
+          @destroyCrop="cropDestroyed"
+          @inspect="inspect"/>
       </div>
     </div>
   </div>
@@ -91,9 +92,6 @@ export default {
           }          
         }
       }
-      if (this.currentAction === 'inspect' && this.plotted) {
-        // TODO
-      }
     },
     plow () {
       this.tileData.plow()
@@ -108,6 +106,15 @@ export default {
           plot.plantCrop(tileState[stringKey])
         }
       }
+    },
+    inspect (plotDetail) {
+      this.$emit(
+        'inspect',
+        {
+          plotDetail,
+          tileDetail: this.tileData.inspectReport(this.currentSeason)
+        }
+      )
     },
     cropPlanted (cropType, index) {
       this.addCropNutrients(cropType)

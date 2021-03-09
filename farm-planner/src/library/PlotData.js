@@ -77,13 +77,13 @@ class PlotData {
     const stressPoints = this.getStressPoints(tileNutrients, season)
     return getOptimalYield(this.crop, stressPoints)
   }
-  
-  debugLog (tileNutrients, season) {
-    console.log({
+
+  inspectReport (tileNutrients, season) {
+    return {
       x: this.x,
       y: this.y,
       crop: this.crop,
-      season: this,
+      season,
       inSeason: this.inSeason(season),
       family: this.family,
       hasFamily: this.hasFamily(),
@@ -91,6 +91,10 @@ class PlotData {
       meetsNutrientRequirements: this.meetsNutrientRequirements(tileNutrients),
       stressPts: this.getStressPoints(tileNutrients, season),
       yield: this.getOptimalYield(tileNutrients, season)
-    })
+    }
+  }
+  
+  debugLog (tileNutrients, season) {
+    console.log(this.inspectReport(tileNutrients, season))
   }
 }

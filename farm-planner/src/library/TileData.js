@@ -113,6 +113,16 @@ class TileData {
     return tally
   }
 
+  inspectReport (season) {
+    return {
+      x: this.x,
+      y: this.y,
+      nutrients: this.nutrients,
+      seeds: this.seedUsed,
+      yield: this.getOptimalYield(season)
+    }
+  }
+
   debugLog (season) {
     console.log('==============INSPECT=TILE!==============')
     for (let row = 0; row < field.plotRowsPerTile; row++) {
@@ -128,12 +138,6 @@ class TileData {
     }
     
     console.log('-----------------OVERALL-----------------')
-    console.log({
-      x: this.x,
-      y: this.y,
-      nutrients: this.nutrients,
-      seeds: this.seedUsed,
-      yield: this.getOptimalYield(season)
-    })
+    console.log(this.inspectReport(season))
   }
 }

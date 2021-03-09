@@ -100,6 +100,13 @@ class FarmData {
     return tally
   }
 
+  inspectReport () {
+    return {
+      seeds: this.seedUsed,
+      yield: this.optimalYield
+    }
+  }
+
   debugLog () {
     console.log('==============INSPECT=FARM!==============')
     
@@ -116,7 +123,6 @@ class FarmData {
     }
 
     console.log('-----------------OVERALL-----------------')
-    console.log(this.seedUsed)
-    console.log(this.optimalYield)
+    console.log(this.inspectReport())
   }
 }

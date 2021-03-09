@@ -23,6 +23,12 @@
     
     <hr class="section-divider"/>
 
+    <div class="status-bar-width column-flex remaining-height"  v-if="this.currentAction === 'inspect'">
+      <Inspector
+        :farmDetail="farmDetail"
+        :tileDetail="tileDetail"
+        :plotDetail="plotDetail"/>
+    </div>
     <div class="status-bar-width column-flex remaining-height" :class="showOnAction('plant')">
       <CropSelector 
         :currentAction="currentAction"
@@ -52,6 +58,7 @@
 <script>
 import SeasonSwitch from './StatusBar/SeasonSwitch'
 import CropSelector from './StatusBar/CropSelector'
+import Inspector from './StatusBar/Inspector'
 import Exporter from './StatusBar/Exporter'
 import Importer from './StatusBar/Importer'
 
@@ -62,6 +69,7 @@ export default {
   components: {
     SeasonSwitch,
     CropSelector,
+    Inspector,
     Exporter,
     Importer
   },
@@ -69,7 +77,10 @@ export default {
     'currentSeason',
     'currentAction',
     'actionDetails',
-    'fieldState'
+    'fieldState',
+    'farmDetail',
+    'tileDetail',
+    'plotDetail'
   ],
   data () {
     return {
