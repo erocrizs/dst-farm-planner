@@ -4,9 +4,7 @@
       <NavigationBar/>
     </div>
     <div id="startup-container" v-if="!fieldState">
-      <Startup 
-        :width="width"
-        :height="height"
+      <Startup
         :season="currentSeason"
         @finishSetup="setupFarm"
         />
@@ -14,11 +12,10 @@
     <div id="field-canvas-container" v-if="fieldState">
       <FieldCanvas
         ref="field"
-        :width="width"
-        :height="height"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
-        :actionDetails="currentActionDetail"/>
+        :actionDetails="currentActionDetail"
+        :fieldState="fieldState"/>
     </div>
     <div id="tool-bar-container" v-if="fieldState">
       <ToolBar 
@@ -58,19 +55,15 @@ export default {
   },
   data () {
     const {
-      tileCols: width,
-      tileRows: height,
       defaultSeason
     } = field
 
     return {
       currentAction: 'import',
       currentActionDetail: null,
-      currentSeason: defaultSeason,
+      currentSeason: field.defaultSeason,
       fieldState: null,
-      actionDetails: {},
-      width,
-      height
+      actionDetails: {}
     }
   },
   methods: {
@@ -101,8 +94,6 @@ export default {
       this.currentSeason = fieldState.season
       this.width = fieldState.width
       this.height = fieldState.height
-
-      // TODO actual loading of save file
     }
   }
 }

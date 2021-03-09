@@ -49,6 +49,7 @@
 <script>
 import seasons from '@/library/seasons'
 import field from '@/library/field'
+import {isInteger, valueBetweenInclusive} from '@/library/util'
 
 export default {
   name: 'Startup',
@@ -58,8 +59,8 @@ export default {
     const maxSize = field.maxFarmSize;
     return {
       tiles: {},
-      inputWidth: `${this.width}`,
-      inputHeight: `${this.height}`,
+      inputWidth: `${field.defaultTileCols}`, // input v-model must be string
+      inputHeight: `${field.defaultTileRows}`,
       inputWidthError: null,
       inputHeightError: null,
       minSize,
@@ -71,34 +72,34 @@ export default {
       this.inputWidthError = null
       this.inputHeightError = null
       
-      const widthNumber = +this.inputWidth
-      if (!this.inputWidth.match(/^\d+$/)) {
-        this.inputWidthError = 'Must be an integer'
-      }
-      else if (widthNumber > this.maxSize || widthNumber < this.minSize) {
-        this.inputWidthError = `Must be between ${this.minSize} and ${this.maxSize}`
-      }
-      
-      const heightNumber = +this.inputHeight
-      if (!this.inputHeight.match(/^\d+$/)) {
-        this.inputHeightError = 'Must be an integer'
-      }
-      else if (heightNumber > this.maxSize || heightNumber < this.minSize) {
-        this.inputHeightError = `Must be between ${this.minSize} and ${this.maxSize}`
-      }
+
+      this.inputWidthError = this.getDimensionInputError(+this.inputWidth)
+      this.inputHeightError = this.getDimensionInputError(+this.inputHeight)
 
       if (this.inputWidthError || this.inputHeightError) {
         return
       }
 
       const fieldData = {
-        width: widthNumber,
-        height: heightNumber,
+        width: +this.inputWidth,
+        height: +this.inputHeight,
         season: this.season,
         tiles: {}
       }
 
       this.$emit('finishSetup', fieldData)
+    },
+    getDimensionInputError (inputDim) {
+      let error = null
+
+      if (!isInteger(inputDim)) {
+        error = 'Must be an integer'
+      }
+      else if (!valueBetweenInclusive(inputDim, this.minSize, this.maxSize)) {
+        error = `Must be between ${this.minSize} and ${this.maxSize}`
+      }
+
+      return error
     }
   },
   computed: {

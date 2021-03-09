@@ -48,19 +48,22 @@ export default {
     handleClick () {
       switch (this.currentAction) {
         case 'plant':
-          return this.plantCrop()
+          return this.plant()
         case 'destroy':
-          return this.destroyCrop()
+          return this.destroy()
       }
     },
-    plantCrop () {
+    plant () {
       if (this.actionDetails && this.crop === null) {
-        this.plotData.plant(this.actionDetails)
-        this.crop = this.actionDetails
-        this.$emit('plantCrop', this.crop, this.plotIndex)
+        this.plantCrop(this.actionDetails)
       }
     },
-    destroyCrop () {
+    plantCrop (crop) {
+      this.plotData.plant(crop)
+      this.crop = crop
+      this.$emit('plantCrop', this.crop, this.plotIndex)
+    },
+    destroy () {
       if (this.crop !== null) {
         this.plotData.destroy()
         this.crop = null

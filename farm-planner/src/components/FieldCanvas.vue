@@ -31,12 +31,23 @@ const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
 
 export default {
   name: 'FieldCanvas',
-  props: ['width', 'height', 'currentAction', 'currentSeason', 'actionDetails'],
+  props: [
+    'currentAction',
+    'currentSeason',
+    'actionDetails',
+    'fieldState'
+  ],
   components: {Tile},
   data () {
     return {
-      farmData: new FarmData(this.width, this.height, this.currentSeason)
+      width: this.fieldState.width,
+      height: this.fieldState.height,
+      loaded: false,
+      farmData: new FarmData(this.fieldState.width, this.fieldState.height, this.currentSeason)
     }
+  },
+  mounted () {
+    this.loadFieldState()
   },
   methods: {
     updateAdjacentTiles (cropChangeDetails) {
@@ -64,6 +75,22 @@ export default {
     },
     toJSON () {
       return this.farmData.toJSON()
+    },
+    loadFieldState () {
+      if (this.loaded) {
+        return
+      }
+
+      this.loaded = true
+
+      for (let tile of this.$refs.tiles) {
+        const stringKey = `${tile.tileData.x},${tile.tileData.y}`
+
+        if (this.fieldState.tiles[stringKey]) {
+          tile.plow()
+          tile.loadTileState(this.fieldState.tiles[stringKey])
+        }
+      }
     }
   },
   computed: {

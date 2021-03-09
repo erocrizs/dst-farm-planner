@@ -15,8 +15,8 @@
           :growthFormula="growthFormula"
           :compost="compost"
           :manure="manure"
-          @plantCrop="plantCrop"
-          @destroyCrop="destroyCrop"/>
+          @plantCrop="cropPlanted"
+          @destroyCrop="cropDestroyed"/>
       </div>
     </div>
   </div>
@@ -73,12 +73,7 @@ export default {
   methods: {
     clicked () {
       if (this.currentAction === 'plot' && !this.plotted) {
-        this.tileData.plow()
-        this.plotted = true
-        this.plotCropList = []
-        this.growthFormula = 0
-        this.compost = 0
-        this.manure = 0
+        this.plow()
       }
       if (this.currentAction === 'flatten' && this.plotted) {
         this.tileData.destroy()
@@ -91,13 +86,30 @@ export default {
         }
       }
     },
-    plantCrop (cropType, index) {
+    plow () {
+      this.tileData.plow()
+      this.plotted = true
+      this.plotCropList = []
+      this.growthFormula = 0
+      this.compost = 0
+      this.manure = 0
+    },
+    loadTileState (tileState) {
+      for (let plot of this.$refs.plots) {
+        const stringKey = `${plot.plotData.x},${plot.plotData.y}`
+
+        if (tileState[stringKey]) {
+          plot.plantCrop(tileState[stringKey])
+        }
+      }
+    },
+    cropPlanted (cropType, index) {
       this.addCropNutrients(cropType)
       this.plotCropList[index] = cropType
 
       this.cropUpdated(index, null, cropType)
     },
-    destroyCrop (index) {
+    cropDestroyed (index) {
       const cropType = this.plotCropList[index]
       const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
       this.growthFormula -= crops[cropType].nutrients.growthFormula * growthSpeed
