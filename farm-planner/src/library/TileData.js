@@ -112,4 +112,28 @@ class TileData {
 
     return tally
   }
+
+  debugLog (season) {
+    console.log('==============INSPECT=TILE!==============')
+    for (let row = 0; row < field.plotRowsPerTile; row++) {
+      for (let col = 0; col < field.plotColsPerTile; col++) {
+        const plotData = this.plots[row][col]
+        
+        if (!plotData.crop) {
+          continue
+        }
+
+        plotData.debugLog(this.nutrients, season)
+      }
+    }
+    
+    console.log('-----------------OVERALL-----------------')
+    console.log({
+      x: this.x,
+      y: this.y,
+      nutrients: this.nutrients,
+      seeds: this.seedUsed,
+      yield: this.getOptimalYield(season)
+    })
+  }
 }

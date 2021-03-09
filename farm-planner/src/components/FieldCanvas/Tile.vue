@@ -91,6 +91,9 @@ export default {
           }          
         }
       }
+      if (this.currentAction === 'inspect' && this.plotted) {
+        // TODO
+      }
     },
     plow () {
       this.tileData.plow()

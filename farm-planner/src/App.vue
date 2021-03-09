@@ -66,6 +66,15 @@ export default {
       actionDetails: {}
     }
   },
+  mounted () {
+    window.debugFarm = () => {
+      this.$refs.field.farmData.debugLog()
+    }
+    window.debugTile = (col, row) => {
+      this.$refs.field.farmData.getTile(col, row)
+        .debugLog(this.currentSeason)
+    }
+  },
   methods: {
     setAction (action) {
       this.currentAction = action

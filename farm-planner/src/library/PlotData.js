@@ -36,7 +36,7 @@ class PlotData {
     return  (this.family || 0) >= field.minimumFamily
   }
 
-  getNutrientRequirement () {
+  get nutrientRequirements () {
     return this.crop
       ? getNutrientRequirement(this.crop)
       : null
@@ -47,13 +47,13 @@ class PlotData {
       return null
     }
 
-    const nutrientContribution = this.getNutrientRequirement()
+    const nutrientContribution = this.nutrientRequirements
     const result = {}
 
     for (let nutrient in tileNutrients) {
       result[nutrient] = (
         nutrientContribution[nutrient] >= 0 // doesn't need; or
-        || tileNutrients[nutrient] + nutrientContribution[nutrient] >= 0 // tile fulfills needs
+        || tileNutrients[nutrient] >= 0 // tile fulfills needs
       )
     }
 
@@ -76,5 +76,21 @@ class PlotData {
   getOptimalYield (tileNutrients, season) {
     const stressPoints = this.getStressPoints(tileNutrients, season)
     return getOptimalYield(this.crop, stressPoints)
+  }
+  
+  debugLog (tileNutrients, season) {
+    console.log({
+      x: this.x,
+      y: this.y,
+      crop: this.crop,
+      season: this,
+      inSeason: this.inSeason(season),
+      family: this.family,
+      hasFamily: this.hasFamily(),
+      nutrientRequirements: this.nutrientRequirements,
+      meetsNutrientRequirements: this.meetsNutrientRequirements(tileNutrients),
+      stressPts: this.getStressPoints(tileNutrients, season),
+      yield: this.getOptimalYield(tileNutrients, season)
+    })
   }
 }

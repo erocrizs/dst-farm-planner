@@ -21,8 +21,8 @@ class FarmData {
     }
   }
   
-  getTile (x, y) {
-    return this.tiles[x][y]
+  getTile (col, row) {
+    return this.tiles[row][col]
   }
   
   get tileList () {
@@ -46,5 +46,77 @@ class FarmData {
       season: this.season,
       tiles
     }
+  }
+
+  get seedUsed () {
+    const tally = {}
+
+    for (let row = 0; row < this.height; row++) {
+      for (let col = 0; col < this.width; col++) {
+        const tile = this.tiles[row][col]
+        
+        if (!tile.plotted) {
+          continue
+        }
+
+        const tileSeeds = tile.seedUsed
+
+        for (let cropName in tileSeeds) {
+          tally[cropName] = (tally[cropName] || 0) + tileSeeds[cropName]
+        }
+      }
+    }
+
+    return tally
+  }
+
+  get optimalYield () {
+    const tally = {}
+
+    for (let row = 0; row < this.height; row++) {
+      for (let col = 0; col < this.width; col++) {
+        const tile = this.tiles[row][col]
+        
+        if (!tile.plotted) {
+          continue
+        }
+
+        const tileYield = tile.getOptimalYield(this.season)
+
+        for (let cropName in tileYield) {
+          let cropTally = tally[cropName]
+
+          if (!cropTally) {
+            cropTally = {crop: 0, seed: 0}
+            tally[cropName] = cropTally
+          }
+
+          cropTally.crop += tileYield[cropName].crop
+          cropTally.seed += tileYield[cropName].seed
+        }
+      }
+    }
+
+    return tally
+  }
+
+  debugLog () {
+    console.log('==============INSPECT=FARM!==============')
+    
+    for (let row = 0; row < this.height; row++) {
+      for (let col = 0; col < this.width; col++) {
+        const tile = this.tiles[row][col]
+        
+        if (!tile.plotted) {
+          continue
+        }
+
+        tile.debugLog(this.season)
+      }
+    }
+
+    console.log('-----------------OVERALL-----------------')
+    console.log(this.seedUsed)
+    console.log(this.optimalYield)
   }
 }
