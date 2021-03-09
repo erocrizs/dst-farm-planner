@@ -33,11 +33,6 @@ export default {
       family[crop] = 0
     }
 
-    this.plotData.growthFormula = this.growthFormula
-    this.plotData.compost = this.compost
-    this.plotData.manure = this.manure
-    this.plotData.season = this.currentSeason
-
     return {
       border: {
         borderTopWidth: this.plotData.x > 0 ? '1px' : '0px',
@@ -133,20 +128,6 @@ export default {
       return this.growthFormula >= 0
         && this.compost >= 0
         && this.manure >= 0
-    }
-  },
-  watch: {
-    growthFormula () {
-      this.plotData.growthFormula = this.growthFormula
-    },
-    compost () {
-      this.plotData.compost = this.compost
-    },
-    manure () {
-      this.plotData.manure = this.manure
-    },
-    currentSeason () {
-      this.plotData.season = this.currentSeason
     }
   }
 }

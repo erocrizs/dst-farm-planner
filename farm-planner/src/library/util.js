@@ -8,7 +8,11 @@ export {
   verifyFieldState,
   isInteger,
   isString,
-  valueBetweenInclusive
+  valueBetweenInclusive,
+  getNutrientRequirement,
+  getFavoredSeasons,
+  isCropInSeason,
+  getOptimalYield
 }
 
 function verifyFieldState (fieldState) {
@@ -93,4 +97,33 @@ function isString (data) {
 function valueBetweenInclusive (number, minInclusive, maxExclusive) {
   return minInclusive <= number
     && number <= maxExclusive
+}
+
+function getNutrientRequirement (cropName) {
+  return crops[cropName].nutrients
+}
+
+function getFavoredSeasons (cropName) {
+  return crops[cropName].seasons
+}
+
+function isCropInSeason (cropName, season) {
+  return getFavoredSeasons(cropName).includes(season)
+}
+
+function getOptimalYield (crop, stressPoints) {
+  let cropYield = 0
+  let seedYield = 0
+
+  for (let yieldTier of field.cropYieldTiers) {
+    if (
+      valueBetweenInclusive(stressPoints, yieldTier.minStress, yieldTier.maxStress)
+    ) {
+      cropYield = yieldTier.cropYield
+      seedYield = yieldTier.seedYield
+      break
+    }
+  }
+
+  return {cropYield, seedYield}
 }
