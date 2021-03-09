@@ -55,4 +55,61 @@ class TileData {
 
     return json
   }
+
+  get nutrients () {
+    return {
+      growthFormula: this.growthFormula,
+      compost: this.compost,
+      manure: this.manure
+    }
+  }
+
+  get seedUsed () {
+    if (!this.plotted) {
+      return {}
+    }
+
+    const tally = {}
+
+    for (let row = 0; row < field.plotRowsPerTile; row++) {
+      for (let col = 0; col < field.plotColsPerTile; col++) {
+        const cropName = this.plots[row][col].crop
+        if (cropName) {
+          tally[cropName] = (tally[cropName] || 0) + 1
+        }
+      }
+    }
+
+    return tally
+  }
+
+  getOptimalYield (season) {
+    const tally = {}
+    const nutrients = this.nutrients
+
+    for (let row = 0; row < field.plotRowsPerTile; row++) {
+      for (let col = 0; col < field.plotColsPerTile; col++) {
+        const plotData = this.plots[row][col]
+        if (!plotData.crop) {
+          continue
+        }
+
+        let cropTally = tally[plotData.crop]
+        if (!cropTally) {
+          cropTally = {crop: 0, seed: 0}
+          tally[plotData.crop] = cropTally
+        }
+
+        const {cropYield, seedYield} = plotData.getOptimalYield(
+          nutrients,
+          season
+        )
+
+        cropTally.crop += cropYield
+        cropTally.seed += seedYield
+      }
+    }
+
+    return tally
+  }
 }

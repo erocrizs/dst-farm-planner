@@ -1,6 +1,5 @@
 'use strict'
 
-import crops from '@/library/crops'
 import field from '@/library/field'
 import {
   getNutrientRequirement,
