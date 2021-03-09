@@ -1,6 +1,6 @@
 <template>
   <div class="tile" :class="{plotted}" @click="clicked">
-    <div class="plot-container">
+    <div class="plot-container" :style="plotGridStyle">
       <div
         :style="showWhenPlotted"
         v-for="(plotData, index) in tileData.plotList"
@@ -28,7 +28,12 @@ import Plot from './Plot'
 import field from '@/library/field'
 import crops from '@/library/crops'
 
-const {plotSizePx} = field;
+const {
+  plotSizePx,
+  plotColsPerTile,
+  plotRowsPerTile,
+  maxNeighborDistance
+} = field;
 
 export default {
   name: 'Tile',
@@ -51,8 +56,8 @@ export default {
   },
   computed: {
     plotGridStyle () {
-      const gridTemplateRows = `px `.repeat(3).trim()
-      const gridTemplateColumns = `${plotSizePx}px `.repeat(3).trim()
+      const gridTemplateRows = `${plotSizePx}px `.repeat(plotRowsPerTile).trim()
+      const gridTemplateColumns = `${plotSizePx}px `.repeat(plotColsPerTile).trim()
       return {
         display: 'grid',
         gridTemplateRows,
@@ -133,7 +138,7 @@ export default {
       for (let plot of this.$refs.plots) {
         const plotCoordinates = this.plotIndexToXY(plot.plotIndex)
         const distance = this.getDistance(sourceCoordinates, plotCoordinates)
-        if (distance < 3.1) {
+        if (distance < maxNeighborDistance) {
           plot.neighborUpdated(fromType, toType)
         }
       }
@@ -145,22 +150,22 @@ export default {
     },
     plotIndexToInternalXY (index) {
       return {
-        x: index % 3,
-        y: Math.floor(index / 3)
+        x: index % plotColsPerTile,
+        y: Math.floor(index / plotColsPerTile)
       }
     },
     plotIndexToXY (index) {
       const {x, y} = this.plotIndexToInternalXY(index)
 
       return {
-        x: (this.tileData.x * 3) + x,
-        y: (this.tileData.y * 3) + y
+        x: (this.tileData.x * plotColsPerTile) + x,
+        y: (this.tileData.y * plotRowsPerTile) + y
       }
     },
     plotXYToIndex (x, y) {
-      const internalX = x - Math.floor(x / (this.tileData.x * 3))
-      const internalY = y - Math.floor(y / (this.tileData.y * 3))
-      return (3 * y) + x
+      const internalX = x - Math.floor(x / (this.tileData.x * plotColsPerTile))
+      const internalY = y - Math.floor(y / (this.tileData.y * plotRowsPerTile))
+      return (plotColsPerTile * y) + x
     }
   },
   watch: {
@@ -191,13 +196,11 @@ export default {
 .tile.plotted {
   background-image: url("../../assets/canvas/Farm_Soil_Texture.png");
   background-size: 192px;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   border: 2px solid #231910;
 }
 
 .plot-container {
   height: 100%;
-  display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr)
 }
 </style>

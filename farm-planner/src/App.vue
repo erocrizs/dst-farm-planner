@@ -29,6 +29,7 @@
       <StatusBar
         @selectSeason="setSeason"
         @setActionDetails="setActionDetails"
+        @loadSave="setupFarm"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"
@@ -100,6 +101,8 @@ export default {
       this.currentSeason = fieldState.season
       this.width = fieldState.width
       this.height = fieldState.height
+
+      // TODO actual loading of save file
     }
   }
 }

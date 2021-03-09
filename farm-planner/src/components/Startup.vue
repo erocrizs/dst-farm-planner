@@ -48,13 +48,14 @@
 
 <script>
 import seasons from '@/library/seasons'
+import field from '@/library/field'
 
 export default {
   name: 'Startup',
   props: ['width', 'height', 'season'],
   data () {
-    const minSize = 1;
-    const maxSize = 10;
+    const minSize = field.minFarmSize;
+    const maxSize = field.maxFarmSize;
     return {
       tiles: {},
       inputWidth: `${this.width}`,

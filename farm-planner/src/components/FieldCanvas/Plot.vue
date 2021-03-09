@@ -106,7 +106,7 @@ export default {
         .seasons
         .includes(this.currentSeason)
 
-      const familyStress = this.family[this.crop] < 3
+      const familyStress = this.family[this.crop] < field.minimumFamily
 
       const nutrientStress = !this.nutrientBalance
 

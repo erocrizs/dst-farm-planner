@@ -32,6 +32,7 @@
     </div>
     <div class="status-bar-width column-flex remaining-height"  :class="showOnAction('export')">
       <Exporter
+        ref="exporter"
         :fieldState="fieldState"
         :currentSeason="currentSeason"
         :farmName="farmName"
@@ -42,6 +43,7 @@
         :fieldState="fieldState"
         :currentSeason="currentSeason"
         :farmName="farmName"
+        @loadSave="emitLoadSave"
         />
     </div>
   </div>
@@ -90,6 +92,14 @@ export default {
     },
     showOnAction (action) {
       return {'hidden-section': this.currentAction !== action}
+    },
+    emitLoadSave (fieldState, saveSummary) {
+      if (saveSummary) {
+        this.farmName = saveSummary.name
+        this.$refs.exporter.selectedSlot = saveSummary.index
+      }
+
+      this.$emit('loadSave', fieldState)
     }
   }
 }

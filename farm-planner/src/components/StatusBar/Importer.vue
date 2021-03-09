@@ -40,7 +40,7 @@
       <button
         :disabled="!selectedSlot"
         type="button"
-        @click="loadState">
+        @click="loadSavedState">
         Load
       </button>
     </div>
@@ -50,6 +50,7 @@
 <script>
 import SaveSlot from './Exporter/SaveSlot'
 import {fetchJSON, keys} from '@/library/storage'
+import {verifyFieldState} from '@/library/util'
 
 export default {
   name: 'Importer',
@@ -67,7 +68,22 @@ export default {
       const [file] = uploadEvent.target.files
       const reader = new FileReader()
       reader.onload = () => {
-        // TODO
+        const raw = reader.result
+        let formatted
+
+        try {
+          formatted = JSON.parse(raw)
+          if (!verifyFieldState(formatted)) {
+            throw new Error('Invalid savefile format')
+          }
+        }
+        catch (e) {
+          alert('Imported file is invalid')
+          console.error(e)
+          return
+        }
+
+        this.loadState(formatted, null)
       }
 
       if (file) {
@@ -82,12 +98,32 @@ export default {
 
       this.selectedSlot = slotIndex
     },
-    loadState () {
+    fetchSaveSummary () {
+      for (let listIndex in this.saveSummaries) {
+        if (this.selectedSlot === this.saveSummaries[listIndex].index) {
+          return this.saveSummaries[listIndex]
+        }
+      }
+    },
+    loadSavedState () {
       if (!this.selectedSlot) {
         return
       }
       
-      // TODO
+      const saves = fetchJSON(keys.saveData, {})
+      const summary = this.fetchSaveSummary()
+
+      if (!saves[this.selectedSlot]) {
+        return
+      }
+
+      this.loadState(
+        saves[this.selectedSlot].data,
+        summary
+      )
+    },
+    loadState (fieldState, saveSummary) {
+      this.$emit('loadSave', fieldState, saveSummary)
     }
   }
 }
@@ -133,6 +169,7 @@ button:not([disabled]):hover, #file-import-button:hover {
   margin-bottom: 10px;
   border-left: 5px solid #342517;
   padding: 5px;
+  padding-left: 10px;
   user-select: none;
 }
 

@@ -215,6 +215,7 @@ button:not([disabled]):hover {
   margin-bottom: 10px;
   border-left: 5px solid #342517;
   padding: 5px;
+  padding-left: 10px;
   user-select: none;
 }
 
