@@ -45,14 +45,14 @@ export default {
     }
   },
   methods: {
-    handleClick () {
+    handleClick (event) {
       switch (this.currentAction) {
         case 'plant':
-          return this.plant()
+          return this.plant(event)
         case 'destroy':
-          return this.destroy()
+          return this.destroy(event)
         case 'inspect':
-          return this.inspect()
+          return this.inspect(event)
       }
     },
     plant () {
@@ -78,7 +78,7 @@ export default {
         this.$emit('destroyCrop', this.plotIndex)
       }
     },
-    inspect () {
+    inspect (event) {
       if (this.crop !== null) {
         this.$emit(
           'inspect',
@@ -91,6 +91,10 @@ export default {
             this.currentSeason
           )
         )
+
+        if (event) {
+          event.stopPropagation()
+        }
       }
     },
     customSize (crop) {

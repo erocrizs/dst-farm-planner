@@ -16,21 +16,26 @@ export default {
   name: 'YieldList',
   props: ['yields'],
   data () {
-    const yieldList = []
+    return {}
+  },
+  computed: {
+    yieldList () {
+      const yieldList = []
 
-    for (let crop in this.yields) {
-      yieldList.push({
-        imgSrc: './static/' + crops[crop].src.normal,
-        count: this.yields[crop].crop
-      })
+      for (let crop in this.yields) {
+        yieldList.push({
+          imgSrc: './static/' + crops[crop].src.normal,
+          count: this.yields[crop].crop
+        })
 
-      yieldList.push({
-        imgSrc: './static/' + crops[crop].src.seeds,
-        count: this.yields[crop].seed
-      })
+        yieldList.push({
+          imgSrc: './static/' + crops[crop].src.seeds,
+          count: this.yields[crop].seed
+        })
+      }
+
+      return yieldList
     }
-
-    return {yieldList}
   }
 }
 </script>

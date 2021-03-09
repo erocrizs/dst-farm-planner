@@ -92,6 +92,9 @@ export default {
           }          
         }
       }
+      if (this.currentAction === 'inspect' && this.plotted) {
+        this.inspect(null)
+      } 
     },
     plow () {
       this.tileData.plow()
@@ -227,5 +230,9 @@ export default {
 
 .plot-container {
   height: 100%;
+}
+
+.empty-plot {
+  pointer-events: none;
 }
 </style>

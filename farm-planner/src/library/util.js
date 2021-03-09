@@ -125,5 +125,5 @@ function getOptimalYield (crop, stressPoints) {
     }
   }
 
-  return {cropYield, seedYield}
+  return {crop: cropYield, seed: seedYield}
 }

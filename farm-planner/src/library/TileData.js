@@ -100,13 +100,13 @@ class TileData {
           tally[plotData.crop] = cropTally
         }
 
-        const {cropYield, seedYield} = plotData.getOptimalYield(
+        const { crop, seed } = plotData.getOptimalYield(
           nutrients,
           season
         )
 
-        cropTally.crop += cropYield
-        cropTally.seed += seedYield
+        cropTally.crop += crop
+        cropTally.seed += seed
       }
     }
 

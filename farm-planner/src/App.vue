@@ -87,6 +87,8 @@ export default {
       }
       else if (action === 'inspect') {
         this.farmDetail = this.$refs.field.farmData.inspectReport()
+        this.tileDetail = null
+        this.plotDetail = null
       }
     },
     setSeason (season) {
