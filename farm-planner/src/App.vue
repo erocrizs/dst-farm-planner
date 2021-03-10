@@ -157,7 +157,12 @@ export default {
         return
       }
 
-      if (!event.ctrlKey && !event.shiftKey && this.fieldState) {
+      if (
+        !event.ctrlKey
+        && !event.shiftKey
+        && this.fieldState
+        && document.activeElement.tagName !== 'INPUT'
+      ) {
         const action = actionKeyCodeShortcut[event.code]
         if (action) {
           this.setAction(action)
