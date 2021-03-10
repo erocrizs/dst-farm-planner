@@ -20,8 +20,12 @@
     </div>
     <div id="tool-bar-container" v-if="fieldState">
       <ToolBar 
+        :undoable="undoable"
+        :redoable="redoable"
+        :currentAction="currentAction"
         @selectAction="setAction"
-        :currentAction="currentAction"/>
+        @undo="undo"
+        @redo="redo"/>
     </div>
     <div id="status-bar-container">
       <StatusBar
@@ -208,6 +212,14 @@ export default {
         this.undoStack.push(undo)
       }
     }
+  },
+  computed: {
+    undoable () {
+      return this.undoStack.length > 0
+    },
+    redoable () {
+      return this.redoStack.length > 0
+    }
   }
 }
 </script>
@@ -275,7 +287,7 @@ export default {
   }
 
   #tool-bar-container {
-    height: 60px;
+    height: auto;
     background-color: #1b180e;
 
     display: flex;
@@ -312,7 +324,6 @@ export default {
     }
 
     #tool-bar-container {
-      height: auto;
       z-index: 1;
       grid-area: 3/1/span 1/span 1;
       background-color: transparent;
