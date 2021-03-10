@@ -12,7 +12,8 @@ export {
   getNutrientRequirement,
   getFavoredSeasons,
   isCropInSeason,
-  getOptimalYield
+  getOptimalYield,
+  getResourcePath
 }
 
 function verifyFieldState (fieldState) {
@@ -126,4 +127,8 @@ function getOptimalYield (crop, stressPoints) {
   }
 
   return {crop: cropYield, seed: seedYield}
+}
+
+function getResourcePath (path) {
+  return './static/' + path
 }

@@ -10,13 +10,14 @@
 </template>
 
 <script>
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'SeasonFilter',
   props: ['config'],
   data () {
     return {
-      imgSrc: './static/' + this.config.symbol,
+      imgSrc: getResourcePath(this.config.symbol),
       filter: false
     }
   },

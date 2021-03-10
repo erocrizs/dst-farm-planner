@@ -61,9 +61,6 @@ export default {
         this.$emit('setActionDetails', actionDetails)
       }
     },
-    staticPath (path) {
-      return './static/' + path
-    },
     setNutrientFilter ({nutrient, filter}) {
       this.filters.nutrients[nutrient] = filter
       this.crops = this.filterCrops()

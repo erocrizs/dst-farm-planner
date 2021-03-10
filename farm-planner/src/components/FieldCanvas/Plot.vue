@@ -15,6 +15,7 @@
 <script>
 import crops from '@/library/crops'
 import field from '@/library/field'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'Plot',
@@ -152,7 +153,7 @@ export default {
       }
 
       const type = this.giant ? 'giant' : 'plant'
-      return './static/' + crops[this.crop].src[type]
+      return getResourcePath(crops[this.crop].src[type])
     },
     giant () {
       if (!this.crop) {

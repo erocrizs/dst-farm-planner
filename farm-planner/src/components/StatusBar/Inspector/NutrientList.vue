@@ -11,6 +11,7 @@
 
 <script>
 import nutrients from '@/library/nutrients'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'NutrientList',
@@ -20,7 +21,7 @@ export default {
   },
   methods: {
     imgSrc (nutrient) {
-      return './static/' + nutrients[nutrient].imgSrc
+      return getResourcePath(nutrients[nutrient].imgSrc)
     }
   }
 }

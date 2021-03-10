@@ -16,7 +16,7 @@
           v-for="(nutrient, index) in nutrients"
           :key="index">
           <img
-            :src="staticPath(nutrient.imgSrc)"
+            :src="getResourcePath(nutrient.imgSrc)"
             class="brown-icon"/> : {{config.nutrients[index]}}
         </div>
       </div>
@@ -24,7 +24,7 @@
         <img
           v-for="(season, index) in seasons"
           :key="index"
-          :src="staticPath(season.symbol)"
+          :src="getResourcePath(season.symbol)"
           class="brown-icon"/>
       </div>
     </div>
@@ -34,6 +34,7 @@
 <script>
 import nutrients from '@/library/nutrients'
 import seasons from '@/library/seasons'
+import {getResourcePath} from '@/library/util'
 
 
 export default {
@@ -41,16 +42,14 @@ export default {
   props: ['config', 'selected'],
   data () {
     return {
-      imgSrc: './static/' + this.config.src.normal,
-      seedImgSrc: './static/' + this.config.src.seeds,
+      imgSrc: getResourcePath(this.config.src.normal),
+      seedImgSrc: getResourcePath(this.config.src.seeds),
       seasons: this.config.seasons.map(x => seasons[x]),
       nutrients
     }
   },
   methods: {
-    staticPath (path) {
-      return './static/' + path
-    },
+    getResourcePath,
     triggerEvent () {
       this.$emit('click', this.selected ? null : this.config.crop)
     }

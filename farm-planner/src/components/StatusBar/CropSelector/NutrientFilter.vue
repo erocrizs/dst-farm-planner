@@ -4,15 +4,17 @@
     :class="selectedFilter"
     @click="toggleNutrientFilter()">
     <img
-      :src="staticPath(config.imgSrc)"
+      :src="getResourcePath(config.imgSrc)"
       class="label brown-icon"/>
     <img 
-      :src="staticPath(intakeSrc)"
+      :src="getResourcePath(intakeSrc)"
       class="filter brown-icon"/>
   </div>
 </template>
 
 <script>
+import {getResourcePath} from '@/library/util'
+
 export default {
   name: 'NutrientFilter',
   props: ['config'],
@@ -22,9 +24,7 @@ export default {
     }
   },
   methods: {
-    staticPath (path) {
-      return './static/' + path
-    },
+    getResourcePath,
     toggleNutrientFilter () {
       if (this.filter === null) {
         this.filter = '+';

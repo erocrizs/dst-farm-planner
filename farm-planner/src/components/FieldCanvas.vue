@@ -22,11 +22,13 @@
 </template>
 
 <script>
-import Tile from './FieldCanvas/Tile'
+import Tile from '@/components/FieldCanvas/Tile'
 
 import FarmData from '@/library/FarmData'
 import seasons from '@/library/seasons'
 import field from '@/library/field'
+
+import {getResourcePath} from '@/library/util'
 
 const tileWidthPx = field.plotColsPerTile * field.plotSizePx
 const tileHeightPx = field.plotRowsPerTile * field.plotSizePx
@@ -109,9 +111,9 @@ export default {
   },
   computed: {
     fieldCanvasStyle () {
-      const {turf} = seasons[this.currentSeason]
+      const turfPath = getResourcePath(seasons[this.currentSeason].turf)
       return {
-        backgroundImage: `url(../static/${turf})`,
+        backgroundImage: `url(${turfPath})`,
         height: `${(tileHeightPx * this.height) + 80}px`,
         width: `${(tileWidthPx * this.width) + 80}px`
       }

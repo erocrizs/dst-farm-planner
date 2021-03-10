@@ -3,8 +3,8 @@
     <div class="seed-count"
       v-for="(count, crop) in seeds"
       :key="crop">
-      <img class="seed-img" :src="seedSrc(crop)"/>
-      <img class="crop-img" :src="cropSrc(crop)"/>
+      <img class="seed-img" :src="src(crop, 'seeds')"/>
+      <img class="crop-img" :src="src(crop, 'normal')"/>
       x {{count}}
     </div>
   </div>
@@ -12,6 +12,7 @@
 
 <script>
 import crops from '@/library/crops'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'SeedList',
@@ -20,11 +21,8 @@ export default {
     return {}
   },
   methods: {
-    seedSrc (crop) {
-      return './static/' + crops[crop].src.seeds
-    },
-    cropSrc (crop) {
-      return './static/' + crops[crop].src.normal
+    src (crop, type) {
+      return getResourcePath(crops[crop].src[type])
     }
   }
 }

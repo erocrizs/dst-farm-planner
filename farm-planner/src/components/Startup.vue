@@ -49,7 +49,11 @@
 <script>
 import seasons from '@/library/seasons'
 import field from '@/library/field'
-import {isInteger, valueBetweenInclusive} from '@/library/util'
+import {
+  isInteger,
+  valueBetweenInclusive,
+  getResourcePath
+} from '@/library/util'
 
 export default {
   name: 'Startup',
@@ -104,9 +108,9 @@ export default {
   },
   computed: {
     seasonalBgImage () {
-      const {turf} = seasons[this.season]
+      const turfPath = getResourcePath(seasons[this.season].turf)
       return {
-        backgroundImage: `url(../static/${turf})`,
+        backgroundImage: `url(${turfPath})`,
         backgroundSize: '768px',
         backgroundRepeat: 'repeat',
         transition: 'background-image 0.5s ease-in-out'

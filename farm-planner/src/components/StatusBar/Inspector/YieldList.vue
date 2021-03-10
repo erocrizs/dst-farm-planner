@@ -11,6 +11,7 @@
 
 <script>
 import crops from '@/library/crops'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'YieldList',
@@ -24,12 +25,12 @@ export default {
 
       for (let crop in this.yields) {
         yieldList.push({
-          imgSrc: './static/' + crops[crop].src.normal,
+          imgSrc: getResourcePath(crops[crop].src.normal),
           count: this.yields[crop].crop
         })
 
         yieldList.push({
-          imgSrc: './static/' + crops[crop].src.seeds,
+          imgSrc: getResourcePath(crops[crop].src.seeds),
           count: this.yields[crop].seed
         })
       }

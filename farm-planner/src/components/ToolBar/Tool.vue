@@ -6,13 +6,14 @@
 </template>
 
 <script>
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'Tool',
   props: ['config', 'selected'],
   data () {
     return {
-      imgSrc: './static/' + this.config.image
+      imgSrc: getResourcePath(this.config.image)
     }
   },
   methods: {

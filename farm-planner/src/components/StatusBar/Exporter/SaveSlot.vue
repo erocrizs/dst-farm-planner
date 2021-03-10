@@ -20,6 +20,7 @@
 
 <script>
 import seasons from '@/library/seasons'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'SaveSlot',
@@ -37,7 +38,7 @@ export default {
   },
   computed: {
     imgSrc () {
-      return './static/' + seasons[this.season].symbol
+      return getResourcePath(seasons[this.season].symbol)
     },
     timeString () {
       return new Date(this.time).toLocaleString()

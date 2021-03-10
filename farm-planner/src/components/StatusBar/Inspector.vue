@@ -58,8 +58,8 @@
       </div>
       <div class="detail-label">
         Crop Planted:
-        <img :src="getCropImgSrc(plotDetail.crop)"/>
-        <img :src="getSeedImgSrc(plotDetail.crop)" style="margin-left: -10px;"/>
+        <img :src="getCropImgSrc(plotDetail.crop, 'normal')"/>
+        <img :src="getCropImgSrc(plotDetail.crop, 'seeds')" style="margin-left: -10px;"/>
         {{getCropName(plotDetail.crop)}}
       </div>
       <div class="detail-label">
@@ -107,6 +107,7 @@ import SeedList from './Inspector/SeedList'
 
 import crops from '@/library/crops'
 import field from '@/library/field'
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'Inspector',
@@ -128,11 +129,9 @@ export default {
     nonEmptyObject (obj) {
       return obj && Object.keys(obj).length > 0
     },
-    getCropImgSrc (crop) {
-      return './static/' + crops[crop].src.normal
-    },
-    getSeedImgSrc (crop) {
-      return './static/' + crops[crop].src.seeds
+    getCropImgSrc (crop, type) {
+      const path = crops[crop].src[type]
+      return  getResourcePath(crops[crop].src[type])
     },
     getCropName (crop) {
       return crops[crop].name

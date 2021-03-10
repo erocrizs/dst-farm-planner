@@ -7,13 +7,14 @@
 </template>
 
 <script>
+import {getResourcePath} from '@/library/util'
 
 export default {
   name: 'SeasonSwitch',
   props: ['config', 'selected'],
   data () {
     return {
-      imgSrc: './static/' + this.config.symbol
+      imgSrc: getResourcePath(this.config.symbol)
     }
   },
   methods: {
