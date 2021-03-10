@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app"
+    @keyup="keyup">
     <div id="navigation-bar-container">
       <NavigationBar/>
     </div>
@@ -65,7 +66,9 @@ export default {
       actionDetails: {},
       farmDetail: null,
       tileDetail: null,
-      plotDetail: null
+      plotDetail: null,
+      undoStack: [],
+      redoStack: []
     }
   },
   mounted () {
@@ -76,6 +79,7 @@ export default {
       this.$refs.field.farmData.getTile(col, row)
         .debugLog(this.currentSeason)
     }
+    document.addEventListener('keyup', e => this.keyup(e))
   },
   methods: {
     setAction (action) {
@@ -91,7 +95,8 @@ export default {
         this.plotDetail = null
       }
     },
-    setSeason (season) {
+    setSeason (season, skipUndo = false) {
+      const lastSeason = this.currentSeason
       this.currentSeason = season
 
       if (this.fieldState) {
@@ -101,6 +106,13 @@ export default {
 
       if (this.currentAction === 'inspect') {
         this.farmDetail = this.$refs.field.farmData.inspectReport()
+      }
+
+      if (!skipUndo) {
+        this.actionDone({
+          undo: () => this.setSeason(lastSeason, true),
+          redo: () => this.setSeason(season, true)
+        })
       }
     },
     setActionDetails (actionDetails) {
@@ -118,6 +130,39 @@ export default {
     inspect ({tileDetail, plotDetail}) {
       this.tileDetail = tileDetail
       this.plotDetail = plotDetail
+    },
+    actionDone (action) {
+      this.undoStack.push(action)
+      this.redoStack = []
+    },
+    keyup (event) {
+      if (
+        (event.ctrlKey && event.shiftKey && event.code === 'KeyZ')
+        || (event.ctrlKey && event.code === 'KeyY')
+      ) {
+        this.redo()
+      }
+      else if (event.ctrlKey && event.code === 'KeyZ') {
+        this.undo()
+      }
+    },
+    undo () {
+      if (this.undoStack.length === 0) {
+        return
+      }
+
+      const lastAction = this.undoStack.pop()
+      lastAction.undo()
+      this.redoStack.push(lastAction)
+    },
+    redo () {
+      if (this.redoStack.length === 0) {
+        return
+      }
+
+      const lastAction = this.redoStack.pop()
+      lastAction.redo()
+      this.undoStack.push(lastAction)
     }
   }
 }
