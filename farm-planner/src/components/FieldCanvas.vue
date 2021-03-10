@@ -15,7 +15,7 @@
           :actionDetails="actionDetails"
           @changeCrop="updateAdjacentTiles"
           @inspect="inspect"
-          @action="action"/>
+          @action="actionDone"/>
       </div>
     </div>
   </div>
@@ -103,7 +103,7 @@ export default {
         }
       )
     },
-    action (action) {
+    actionDone (action) {
       this.$emit('action', action)
     }
   },

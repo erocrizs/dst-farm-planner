@@ -47,19 +47,28 @@ export default {
   },
   methods: {
     handleClick (event) {
+      let action;
       switch (this.currentAction) {
         case 'plant':
-          return this.plant(event)
+          action = this.plant(event)
+          break
         case 'destroy':
-          return this.destroy(event)
+          action = this.destroy(event)
+          break
         case 'inspect':
           return this.inspect(event)
+      }
+
+      if (action && action.revert) {
+        this.$emit('action', action)
       }
     },
     plant () {
       if (this.actionDetails && this.crop === null) {
-        this.plantCrop(this.actionDetails)
+        const action = this.plantCrop(this.actionDetails)
+        return action
       }
+      return {type: 'plant'}
     },
     plantCrop (crop) {
       this.plotData.plant(crop)
@@ -68,16 +77,30 @@ export default {
       this.plotData.family = this.family[this.crop]
 
       this.$emit('plantCrop', this.crop, this.plotIndex)
+
+      const action = {
+        type: 'plantCrop',
+        revert: () => this.destroy()
+      }
+
+      return action
     },
     destroy () {
       if (this.crop !== null) {
+        const crop = this.crop
         this.plotData.destroy()
         this.crop = null
 
         this.plotData.family = null
 
         this.$emit('destroyCrop', this.plotIndex)
+
+        return {
+          type: 'destroy',
+          revert: () => this.plantCrop(crop)
+        }
       }
+      return {type: 'destroy'}
     },
     inspect (event) {
       if (this.crop !== null) {

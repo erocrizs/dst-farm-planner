@@ -19,7 +19,8 @@
           :manure="manure"
           @plantCrop="cropPlanted"
           @destroyCrop="cropDestroyed"
-          @inspect="inspect"/>
+          @inspect="inspect"
+          @action="actionDone"/>
       </div>
     </div>
   </div>
@@ -105,8 +106,14 @@ export default {
         action = this.destroy()
       }
       else if (this.inspectable) {
-        action = this.inspect(null)
+        this.inspect(null)
       }
+
+      if (action && action.revert) {
+        this.actionDone(action)
+      }
+    },
+    actionDone (action) {
       this.$emit('action', action)
     },
     plow () {
@@ -114,6 +121,7 @@ export default {
       this.plotted = true
       this.plotCropList = []
       return {
+        type: 'plowTile',
         revert: () => this.destroy()
       }
     },
@@ -125,14 +133,17 @@ export default {
       for (let plot of this.$refs.plots) {
         if (plot.crop) {
           const action = plot.destroy()
-          destroyActions.push(action)
+          if (action && action.revert) {
+            destroyActions.push(action)
+          } 
         }          
       }
 
       return {
+        type: 'destroyTile',
         revert: () => {
           const action = this.plow()
-          // destroyActions.forEach(e => e.revert())
+          destroyActions.forEach(e => e.revert())
           return action
         }
       }

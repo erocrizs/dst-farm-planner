@@ -27,7 +27,7 @@
       <StatusBar
         @selectSeason="setSeason"
         @setActionDetails="setActionDetails"
-        @loadSave="setupFarm"
+        @loadSave="loadSave"
         :currentAction="currentAction"
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"
@@ -118,6 +118,7 @@ export default {
       }
 
       return {
+        type: 'setSeasonUndoable',
         revert: () => this.setSeasonUndoable(lastSeason)
       }
     },
@@ -130,6 +131,11 @@ export default {
     setActionDetails (actionDetails) {
       this.actionDetails[this.currentAction] = actionDetails
       this.currentActionDetail = actionDetails
+    },
+    loadSave (fieldState) {
+      this.undoStack = []
+      this.redoStack = []
+      this.setupFarm(fieldState)
     },
     setupFarm (fieldState) {
       this.currentAction = null
@@ -183,18 +189,24 @@ export default {
         return
       }
 
-      const lastAction = this.undoStack.pop()
-      const redo = lastAction.revert()
-      this.redoStack.push(redo)
+      const action = this.undoStack.pop()
+
+      if (action && action.revert) {
+        const redo = action.revert()
+        this.redoStack.push(redo)
+      }
     },
     redo () {
       if (this.redoStack.length === 0) {
         return
       }
 
-      const lastAction = this.redoStack.pop()
-      const undo = lastAction.revert()
-      this.undoStack.push(undo)
+      const action = this.redoStack.pop()
+
+      if (action && action.revert) {
+        const undo = action.revert()
+        this.undoStack.push(undo)
+      }
     }
   }
 }
