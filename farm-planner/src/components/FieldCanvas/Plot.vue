@@ -1,6 +1,7 @@
 <template>
   <div
     class="plot"
+    :class="glowOnActionHover"
     :style="border"
     @click="handleClick">
     <img
@@ -149,6 +150,26 @@ export default {
       return this.growthFormula >= 0
         && this.compost >= 0
         && this.manure >= 0
+    },
+    plantable () {
+      return this.currentAction === 'plant'
+        && this.crop === null
+        && this.actionDetails !== null
+    },
+    destroyable () {
+      return this.currentAction === 'destroy'
+        && this.crop !== null
+    },
+    inspectable () {
+      return this.currentAction === 'inspect'
+        && this.crop !== null
+    },
+    glowOnActionHover () {
+      return {
+        'plot-glow-white': this.inspectable,
+        'plot-glow-green': this.plantable,
+        'plot-glow-red': this.destroyable
+      }
     }
   },
   watch: {
@@ -181,5 +202,17 @@ export default {
 
 .giant-glow {
   filter: drop-shadow(0px 0px 2px #ccc)
+}
+
+.plot-glow-white:hover {
+  background-color: #cccccc70;
+}
+
+.plot-glow-red:hover {
+  background-color: #a7232370;
+}
+
+.plot-glow-green:hover {
+  background-color: #157515c0;
 }
 </style>
