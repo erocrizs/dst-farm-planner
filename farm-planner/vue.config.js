@@ -1,5 +1,11 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-  ? '/dst-farm-planner/'
-  : '/'
+  configureWebpack: {
+    resolve: {
+      alias: require('./aliases.config').webpack
+    }
+  },
+  css: {
+    // Enable CSS source maps.
+    sourceMap: true
+  }
 }
