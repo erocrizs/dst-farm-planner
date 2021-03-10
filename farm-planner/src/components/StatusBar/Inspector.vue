@@ -146,9 +146,7 @@ export default {
       return this.plotDetail.hasFamily
     },
     cropMeetsNutrients () {
-      return this.plotDetail.meetsNutrientRequirements.growthFormula
-        && this.plotDetail.meetsNutrientRequirements.compost
-        && this.plotDetail.meetsNutrientRequirements.manure
+      return this.plotDetail.meetsNutrientRequirements
     },
     cropFavoredSeasons () {
       return crops[this.plotDetail.crop].seasons

@@ -47,30 +47,17 @@ class PlotData {
       return null
     }
 
-    const nutrientContribution = this.nutrientRequirements
-    const result = {}
-
-    for (let nutrient in tileNutrients) {
-      result[nutrient] = (
-        nutrientContribution[nutrient] >= 0 // doesn't need; or
-        || tileNutrients[nutrient] >= 0 // tile fulfills needs
-      )
-    }
-
-    return result
+    return tileNutrients.growthFormula >= 0
+      && tileNutrients.compost >= 0
+      && tileNutrients.manure >= 0
   }
 
   getStressPoints (tileNutrients, season) {
-    const nutrientReport = this.meetsNutrientRequirements(tileNutrients)
-    const meetsNutrients = nutrientReport.growthFormula
-      && nutrientReport.compost
-      && nutrientReport.manure
-
     const stressPerFactor = field.plantGrowthStages - 1 // skips fully grown stage
 
     return (this.hasFamily() ? 0 : stressPerFactor)
       + (this.inSeason(season) ? 0 : stressPerFactor)
-      + (meetsNutrients ? 0 : stressPerFactor)
+      + (this.meetsNutrientRequirements(tileNutrients) ? 0 : stressPerFactor)
   }
 
   getOptimalYield (tileNutrients, season) {
