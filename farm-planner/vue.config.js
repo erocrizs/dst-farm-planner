@@ -7,5 +7,8 @@ module.exports = {
   css: {
     // Enable CSS source maps.
     sourceMap: true
-  }
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/dst-farm-planner/'
+    : '/'
 }
