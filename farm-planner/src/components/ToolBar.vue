@@ -77,7 +77,9 @@ export default {
   }
 
   .tool-frame {
-    height: auto;
+    height: 60px;
+    display: flex;
+    place-items: center;
     background-color: #1b180e;
     pointer-events: auto;
   }
@@ -122,6 +124,10 @@ export default {
   }
 
   @media screen and (min-width: 780px) {
+    .tool-frame {
+      height: auto;
+    }
+    
     .action-stack-button {
       width: auto;
     }
