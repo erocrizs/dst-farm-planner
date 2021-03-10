@@ -14,7 +14,8 @@
           :currentSeason="currentSeason"
           :actionDetails="actionDetails"
           @changeCrop="updateAdjacentTiles"
-          @inspect="inspect"/>
+          @inspect="inspect"
+          @action="action"/>
       </div>
     </div>
   </div>
@@ -101,6 +102,9 @@ export default {
           tileDetail
         }
       )
+    },
+    action (action) {
+      this.$emit('action', action)
     }
   },
   computed: {

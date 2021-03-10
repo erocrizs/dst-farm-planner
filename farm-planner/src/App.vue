@@ -15,7 +15,8 @@
         :currentSeason="currentSeason"
         :actionDetails="currentActionDetail"
         :fieldState="fieldState"
-        @inspect="inspect"/>
+        @inspect="inspect"
+        @action="actionDone"/>
     </div>
     <div id="tool-bar-container" v-if="fieldState">
       <ToolBar 
@@ -103,7 +104,7 @@ export default {
         this.plotDetail = null
       }
     },
-    setSeason (season, skipUndo = false) {
+    setSeasonUndoable (season) {
       const lastSeason = this.currentSeason
       this.currentSeason = season
 
@@ -116,11 +117,14 @@ export default {
         this.farmDetail = this.$refs.field.farmData.inspectReport()
       }
 
+      return {
+        revert: () => this.setSeasonUndoable(lastSeason)
+      }
+    },
+    setSeason (season, skipUndo = false) {
+      const action = this.setSeasonUndoable(season)
       if (!skipUndo) {
-        this.actionDone({
-          undo: () => this.setSeason(lastSeason, true),
-          redo: () => this.setSeason(season, true)
-        })
+        this.actionDone(action)
       }
     },
     setActionDetails (actionDetails) {
@@ -180,8 +184,8 @@ export default {
       }
 
       const lastAction = this.undoStack.pop()
-      lastAction.undo()
-      this.redoStack.push(lastAction)
+      const redo = lastAction.revert()
+      this.redoStack.push(redo)
     },
     redo () {
       if (this.redoStack.length === 0) {
@@ -189,8 +193,8 @@ export default {
       }
 
       const lastAction = this.redoStack.pop()
-      lastAction.redo()
-      this.undoStack.push(lastAction)
+      const undo = lastAction.revert()
+      this.undoStack.push(undo)
     }
   }
 }

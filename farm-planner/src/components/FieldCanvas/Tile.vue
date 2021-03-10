@@ -97,27 +97,45 @@ export default {
   },
   methods: {
     clicked () {
+      let action;
       if (this.plowable) {
-        this.plow()
+        action = this.plow()
       }
-      if (this.flattenable) {
-        this.tileData.destroy()
-        this.plotted = false
-
-        for (let plot of this.$refs.plots) {
-          if (plot.crop) {
-            plot.destroy()
-          }          
-        }
+      else if (this.flattenable) {
+        action = this.destroy()
       }
-      if (this.inspectable) {
-        this.inspect(null)
+      else if (this.inspectable) {
+        action = this.inspect(null)
       }
+      this.$emit('action', action)
     },
     plow () {
       this.tileData.plow()
       this.plotted = true
       this.plotCropList = []
+      return {
+        revert: () => this.destroy()
+      }
+    },
+    destroy () {
+      this.tileData.destroy()
+      this.plotted = false
+
+      const destroyActions = []
+      for (let plot of this.$refs.plots) {
+        if (plot.crop) {
+          const action = plot.destroy()
+          destroyActions.push(action)
+        }          
+      }
+
+      return {
+        revert: () => {
+          const action = this.plow()
+          // destroyActions.forEach(e => e.revert())
+          return action
+        }
+      }
     },
     loadTileState (tileState) {
       for (let plot of this.$refs.plots) {
