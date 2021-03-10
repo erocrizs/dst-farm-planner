@@ -48,6 +48,15 @@ import Startup from './components/Startup'
 
 import field from '@/library/field'
 
+const actionKeyCodeShortcut = {
+  Digit1: 'inspect',
+  Digit2: 'plant',
+  Digit3: 'destroy',
+  Digit4: 'plot',
+  Digit5: 'flatten',
+  Digit6: 'export'
+}
+
 export default {
   name: 'App',
   components: {
@@ -141,9 +150,18 @@ export default {
         || (event.ctrlKey && event.code === 'KeyY')
       ) {
         this.redo()
+        return
       }
       else if (event.ctrlKey && event.code === 'KeyZ') {
         this.undo()
+        return
+      }
+
+      if (!event.ctrlKey && !event.shiftKey && this.fieldState) {
+        const action = actionKeyCodeShortcut[event.code]
+        if (action) {
+          this.setAction(action)
+        }
       }
     },
     undo () {
