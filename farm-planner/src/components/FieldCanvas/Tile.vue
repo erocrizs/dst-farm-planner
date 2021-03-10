@@ -1,6 +1,8 @@
 <template>
   <div class="tile" :class="{plotted}" @click="clicked">
-    <div class="plot-container" :style="plotGridStyle">
+    <div class="plot-container"
+      :class="glowOnActionHover"
+      :style="plotGridStyle">
       <div
         :style="showWhenPlotted"
         v-for="(plotData, index) in tileData.plotList"
@@ -75,14 +77,30 @@ export default {
     },
     manure () {
       return this.tileData.manure
+    },
+    plowable () {
+      return this.currentAction === 'plot' && !this.plotted
+    },
+    flattenable () {
+      return this.currentAction === 'flatten' && this.plotted
+    },
+    inspectable () {
+      return this.currentAction === 'inspect' && this.plotted
+    },
+    glowOnActionHover () {
+      return {
+        'glow-red': this.flattenable,
+        'glow-green': this.plowable,
+        'glow-white': this.inspectable
+      }
     }
   },
   methods: {
     clicked () {
-      if (this.currentAction === 'plot' && !this.plotted) {
+      if (this.plowable) {
         this.plow()
       }
-      if (this.currentAction === 'flatten' && this.plotted) {
+      if (this.flattenable) {
         this.tileData.destroy()
         this.plotted = false
 
@@ -92,9 +110,9 @@ export default {
           }          
         }
       }
-      if (this.currentAction === 'inspect' && this.plotted) {
+      if (this.inspectable) {
         this.inspect(null)
-      } 
+      }
     },
     plow () {
       this.tileData.plow()
@@ -207,7 +225,7 @@ export default {
           this.addCropNutrients(cropType)
         }
       }
-    },
+    }
   }
 }
 </script>
@@ -234,5 +252,17 @@ export default {
 
 .empty-plot {
   pointer-events: none;
+}
+
+.glow-white:hover {
+  background-color: #cccccc20;
+}
+
+.glow-red:hover {
+  background-color: #a7232320;
+}
+
+.glow-green:hover {
+  background-color: #1575158e;
 }
 </style>
