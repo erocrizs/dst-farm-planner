@@ -1,6 +1,5 @@
 <template>
-  <div id="app"
-    @keyup="keyup">
+  <div id="app">
     <div id="navigation-bar-container">
       <NavigationBar/>
     </div>
@@ -88,7 +87,7 @@ export default {
       this.$refs.field.farmData.getTile(col, row)
         .debugLog(this.currentSeason)
     }
-    document.addEventListener('keyup', e => this.keyup(e))
+    document.addEventListener('keydown', e => this.keydown(e))
   },
   methods: {
     setAction (action) {
@@ -144,16 +143,22 @@ export default {
       this.undoStack.push(action)
       this.redoStack = []
     },
-    keyup (event) {
+    keydown (event) {
+      if (document.activeElement.tagName === 'INPUT') {
+        return
+      }
+
       if (
         (event.ctrlKey && event.shiftKey && event.code === 'KeyZ')
         || (event.ctrlKey && event.code === 'KeyY')
       ) {
         this.redo()
+        event.preventDefault()
         return
       }
       else if (event.ctrlKey && event.code === 'KeyZ') {
         this.undo()
+        event.preventDefault()
         return
       }
 
@@ -161,11 +166,11 @@ export default {
         !event.ctrlKey
         && !event.shiftKey
         && this.fieldState
-        && document.activeElement.tagName !== 'INPUT'
       ) {
         const action = actionKeyCodeShortcut[event.code]
         if (action) {
           this.setAction(action)
+          event.preventDefault()
         }
       }
     },
