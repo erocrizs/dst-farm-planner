@@ -25,9 +25,7 @@ export default {
     'currentAction',
     'currentSeason',
     'actionDetails',
-    'growthFormula',
-    'compost',
-    'manure',
+    'nutrients'
   ],
   data () {
     const family = {}
@@ -108,11 +106,7 @@ export default {
         this.$emit(
           'inspect',
           this.plotData.inspectReport(
-            {
-              growthFormula: this.growthFormula,
-              compost: this.compost,
-              manure: this.manure
-            },
+            this.nutrients,
             this.currentSeason
           )
         )
@@ -167,11 +161,7 @@ export default {
       return !(seasonStress || familyStress || nutrientStress)
     },
     nutrientBalance () {
-      return this.plotData.meetsNutrientRequirements({
-        growthFormula: this.growthFormula,
-        compost: this.compost,
-        manure: this.manure
-      })
+      return this.plotData.meetsNutrientRequirements(this.nutrients)
     },
     hasFamily () {
       return this.plotData.hasFamily()

@@ -14,9 +14,7 @@
           :currentAction="currentAction"
           :currentSeason="currentSeason"
           :actionDetails="actionDetails"
-          :growthFormula="growthFormula"
-          :compost="compost"
-          :manure="manure"
+          :nutrients="nutrients"
           @plantCrop="cropPlanted"
           @destroyCrop="cropDestroyed"
           @inspect="inspect"
@@ -69,14 +67,8 @@ export default {
         visibility: this.plotted ? 'visible' : 'hidden'
       }
     },
-    growthFormula () {
-      return this.tileData.growthFormula
-    },
-    compost () {
-      return this.tileData.compost
-    },
-    manure () {
-      return this.tileData.manure
+    nutrients () {
+      return this.tileData.nutrients
     },
     plowable () {
       return this.currentAction === 'plot' && !this.plotted
