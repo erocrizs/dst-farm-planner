@@ -160,20 +160,24 @@ export default {
         return false
       }
 
-      const seasonStress = !crops[this.crop]
-        .seasons
-        .includes(this.currentSeason)
-
-      const familyStress = this.family[this.crop] < field.minimumFamily
-
+      const seasonStress = !this.inSeason
+      const familyStress = !this.hasFamily
       const nutrientStress = !this.nutrientBalance
 
       return !(seasonStress || familyStress || nutrientStress)
     },
     nutrientBalance () {
-      return this.growthFormula >= 0
-        && this.compost >= 0
-        && this.manure >= 0
+      return this.plotData.meetsNutrientRequirements({
+        growthFormula: this.growthFormula,
+        compost: this.compost,
+        manure: this.manure
+      })
+    },
+    hasFamily () {
+      return this.plotData.hasFamily()
+    },
+    inSeason () {
+      return this.plotData.inSeason(this.currentSeason)
     },
     plantable () {
       return this.currentAction === 'plant'
