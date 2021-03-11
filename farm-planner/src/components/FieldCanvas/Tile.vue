@@ -51,7 +51,6 @@ export default {
   ],
   data () {
     return {
-      plotted: this.tileData.plotted,
       plotCropList: []
     }
   },
@@ -88,6 +87,9 @@ export default {
     inspectable () {
       return this.currentAction === 'inspect' && this.plotted
     },
+    plotted () {
+      return this.tileData.plotted
+    },
     glowOnActionHover () {
       return {
         'glow-red': this.flattenable,
@@ -118,7 +120,6 @@ export default {
     },
     plow () {
       this.tileData.plow()
-      this.plotted = true
       this.plotCropList = []
       return {
         type: 'plowTile',
@@ -127,8 +128,6 @@ export default {
     },
     destroy () {
       this.tileData.destroy()
-      this.plotted = false
-
       const destroyActions = []
       for (let plot of this.$refs.plots) {
         if (plot.crop) {
@@ -167,26 +166,28 @@ export default {
       )
     },
     cropPlanted (cropType, index) {
-      this.addCropNutrients(cropType)
+      this.addCropNutrients(cropType, 1)
       this.plotCropList[index] = cropType
 
       this.cropUpdated(index, null, cropType)
     },
     cropDestroyed (index) {
       const cropType = this.plotCropList[index]
-      const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
-      this.tileData.growthFormula -= crops[cropType].nutrients.growthFormula * growthSpeed
-      this.tileData.compost -= crops[cropType].nutrients.compost * growthSpeed
-      this.tileData.manure -= crops[cropType].nutrients.manure * growthSpeed
+      this.addCropNutrients(cropType, -1)
 
       this.plotCropList[index] = null
       this.cropUpdated(index, cropType, null)
     },
-    addCropNutrients (cropType) {
-      const growthSpeed = crops[cropType].seasons.includes(this.currentSeason) ? 1 : 0.5
-      this.tileData.growthFormula += crops[cropType].nutrients.growthFormula * growthSpeed
-      this.tileData.compost += crops[cropType].nutrients.compost * growthSpeed
-      this.tileData.manure += crops[cropType].nutrients.manure * growthSpeed
+    addCropNutrients (cropType, sign = 1) {
+      const additiveSign = Math.sign(sign)
+      const cropNutrients = crops[cropType].nutrients
+      const growthSpeed = crops[cropType].seasons.includes(this.currentSeason)
+        ? field.growthSpeed.inSeason
+        : field.growthSpeed.offSeason
+
+      for (let nutrient in cropNutrients) {
+        this.tileData[nutrient] += (cropNutrients[nutrient] * growthSpeed * additiveSign)
+      }
     },
     cropUpdated (index, fromType, toType) {
       for (let plot of this.$refs.plots) {
@@ -236,11 +237,6 @@ export default {
         x: (this.tileData.x * plotColsPerTile) + x,
         y: (this.tileData.y * plotRowsPerTile) + y
       }
-    },
-    plotXYToIndex (x, y) {
-      const internalX = x - Math.floor(x / (this.tileData.x * plotColsPerTile))
-      const internalY = y - Math.floor(y / (this.tileData.y * plotRowsPerTile))
-      return (plotColsPerTile * y) + x
     }
   },
   watch: {
@@ -251,7 +247,7 @@ export default {
 
       for (let cropType of this.plotCropList) {
         if (cropType) {
-          this.addCropNutrients(cropType)
+          this.addCropNutrients(cropType, 1)
         }
       }
     }

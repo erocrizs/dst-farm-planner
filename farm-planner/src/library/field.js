@@ -45,5 +45,9 @@ export default {
       seedYield: 0,
       remark: 'horrible'
     }
-  ]
+  ],
+  growthSpeed: {
+    inSeason: 1,
+    offSeason: 0.5
+  }
 }
