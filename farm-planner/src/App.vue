@@ -297,7 +297,6 @@ export default {
   }
   
   #startup-container {
-    background-color: #9b7b5d;
     color: #342517;
     min-height: 500px;
     max-height: calc(100vh - 170px);
