@@ -1,0 +1,25 @@
+@font-face {
+    font-family: belisa_plumilla;
+    src: url(fonts/belisa_plumilla.ttf);
+}
+
+@font-face {
+    font-family: spirequal;
+    src: url(fonts/spirequal.ttf);
+}
+
+body {
+    font-family: spirequal;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.brown-icon {
+    filter: invert(10%) sepia(69%) saturate(427%) hue-rotate(348deg) brightness(96%) contrast(90%);
+}
+
+@media screen and (min-width: 780px) {
+    body {
+        font-size: 2em;
+    }
+  }

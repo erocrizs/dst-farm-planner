@@ -1,0 +1,20 @@
+{
+  "name": "Don't Starve Together Farm Planner",
+  "short_name": "DST Farm Planner",
+  "categories": ["games", "entertainment"],
+  "description": "Tool for planning your farms in Don't Starve Together after the Reap What You Sow update.",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "display": "standalone"
+}
